@@ -1,39 +1,49 @@
-import {createSlice} from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 import LocalStorge from "../../localstroge/Localstroge";
 
+const { get, set } = LocalStorge("cartItem", []);
 
-const {get,set} = LocalStorge("cartItem", [])
 const initialState = {
-    listCart: get(),
-    count:0,
-}
+  listCart: get(),
+};
+
 
 const todoListCart = createSlice({
-    name : "listCart",
-    initialState:initialState,
-    reducers: {
-        AddCart : (state,action)=>{
-            const product = action.payload;
-            state.listCart = [product,...state.listCart]
-            set(state.listCart)
-            // console.log("state.listCart",state.listCart);
-        },
-        DelCart : (state,action)=>{
-
-        },
-        increase:(state,action)=>{
-            const data=action.payload;
-            state.count = state.count + data;
-        },
-        decrease: (state,action)=>{
-            const data = action.payload;
-            if(state.count > 0){
-                state.count -= data ;
-            }
-        }
-
+  name: "listCart",
+  initialState: initialState,
+  reducers: {
+    AddCart: (state, action) => {
+      const product = action.payload;
+      const index = state.listCart.findIndex((index)=> index.id === product.id)
+      if(index === -1){
+        state.listCart = [{ ...product, count: 1 }, ...state.listCart];
+      }else{
+        state.listCart[index].count++
+      }
+      set(state.listCart);    
+    },
+    DelCart: (state, action) => {},
+    increase: (state, action) => {
+      const data = action.payload;
+      const index = state.listCart.findIndex((index)=> index.id === data.id )
+      state.listCart[index].count++
+      
+    },
+    decrease: (state, action) => {
+      const data = action.payload;
+      const index = state.listCart.findIndex((index)=> index.id === data.id )
+      if(data.count > 0 ){
+          state.listCart[index].count--
+      }else{
+        state.listCart.splice(index,1);
+      }
+      set(state.listCart)
+    },
+    AddRegister:(state,action)=>{
+      
     }
-})
+  },
+});
 
-export const {AddCart,DelCart,increase,decrease} = todoListCart.actions;
+export const { AddCart, DelCart, increase, decrease } = todoListCart.actions;
 export const listCart = todoListCart.reducer;

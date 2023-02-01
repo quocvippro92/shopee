@@ -2,3 +2,17 @@
 .navbar-nav a{
   font-size: 18px;
 }
+p.erro {
+  text-align: -webkit-left;
+  padding-top: 10px;
+  color: red;
+}
+.card-header{
+  background-color: #938880 !important;
+}
+.card-header h1{
+  text-align: justify;
+}
+.card-body {
+  background-color: #eae5e0;
+}

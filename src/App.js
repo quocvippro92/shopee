@@ -6,6 +6,7 @@ import Products from './component/Products';
 import { Routes ,Route } from 'react-router-dom';
 import Product from './component/Product';
 import Cart from './component/Cart';
+import Register from './component/Register';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
       <Route exact path='/products' element = {<Products/>}/>
       <Route exact path='/products/:id' element = {<Product/>}/>
       <Route exact path='/cart' element = {<Cart/>}/>
+      <Route exact path='/register' element = {<Register/>}/>
    </Routes>
    </>
   );

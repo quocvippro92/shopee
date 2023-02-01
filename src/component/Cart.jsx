@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from "react-redux/es/exports";
 import { decrease, increase } from "../redux/slice/createrSlice";
 const Cart = () => {
   const stateCart = useSelector((state) => state.listCart.listCart);
-  const count = useSelector((state)=> state.listCart.count);
+  // const count = useSelector((state)=> state.listCart.count);
   const dispatch = useDispatch();
-  const handleIncrease = ()=>{
-    dispatch(increase(1));
+  const handleIncrease = (cart)=>{
+    dispatch(increase(cart));
     
 }
-const handleDecrease = ()=>{
-    dispatch(decrease(1));
+const handleDecrease = (cart)=>{
+    dispatch(decrease(cart));
 }
   return stateCart.map((cart) => (
     <>
@@ -24,9 +24,9 @@ const handleDecrease = ()=>{
             <h1 className="display-5">
               {} {cart.title}
             </h1>
-            <h3 className="display-6 fw-bold my-4">${cart.price} x {count} = </h3>
-            <button onClick={()=>handleIncrease()} className=" btn btn-outline-dark px-4 py-2 me-2">+</button>
-            <button onClick={()=>handleDecrease()} className=" btn btn-outline-dark px-4 py-2 me-2">-</button>
+            <h3 className="display-6 fw-bold my-4">${cart.price} x {cart.count} = {cart.count * cart.price} $</h3>
+            <button onClick={()=>handleIncrease(cart)} className=" btn btn-outline-dark px-4 py-2 me-2">+</button>
+            <button onClick={()=>handleDecrease(cart)} className=" btn btn-outline-dark px-4 py-2 me-2">-</button>
           </div>
         </div>
       </div>
