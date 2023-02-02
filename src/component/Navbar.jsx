@@ -1,14 +1,17 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import {useSelector } from  "react-redux"
+import { useSelector } from "react-redux";
 const NavBar = () => {
-  const state = useSelector((state)=>state.listCart.listCart)
-  const sumCart = state.reduce((total,currentValue)=> total + currentValue.count,0)
-  
+  const state = useSelector((state) => state.listCart.listCart);
+  const sumCart = state.reduce(
+    (total, currentValue) => total + currentValue.count,
+    0
+  );
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
-        <div className="container">
+        <div className="container-fluid">
           <NavLink className="navbar-brand fw-bold fs-4" to="/">
             QE SHOP
           </NavLink>
@@ -45,6 +48,17 @@ const NavBar = () => {
                   Contact
                 </NavLink>
               </li>
+              <form class="d-flex" role="search">
+                <input
+                  class="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+                <button class="btn btn-outline-dark" type="submit">
+                  Search
+                </button>
+              </form>
             </ul>
             <div className="buttons">
               <NavLink to="/login" className="btn btn-outline-dark  ">

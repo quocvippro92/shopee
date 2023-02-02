@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 const Register = () => {
-  const dispatch = useDispatch();
   const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
   const formik = useFormik({
     initialValues: {

@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import LocalStorge from "../../localstroge/Localstroge";
 
 const { get, set } = LocalStorge("cartItem", []);
-
 const initialState = {
   listCart: get(),
 };
@@ -15,6 +14,7 @@ const todoListCart = createSlice({
     AddCart: (state, action) => {
       const product = action.payload;
       const index = state.listCart.findIndex((index)=> index.id === product.id)
+      console.log(index);
       if(index === -1){
         state.listCart = [{ ...product, count: 1 }, ...state.listCart];
       }else{

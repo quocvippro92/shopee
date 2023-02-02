@@ -24,6 +24,8 @@ const Products = () => {
     };
     getProducts();
   }, []);
+  console.log(filter)
+
 
   const Loading = ()=>{
     return(
