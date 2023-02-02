@@ -8,11 +8,14 @@ p.erro {
   color: red;
 }
 .card-header{
-  background-color: #938880 !important;
+  background-color: #e8e1dd !important;
 }
 .card-header h1{
   text-align: justify;
 }
-.card-body {
-  background-color: #eae5e0;
+
+  .col-md-6 {
+    flex: 0 0 auto;
+    width: 50%;
+    height: 850px;
 }
