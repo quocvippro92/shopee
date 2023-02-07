@@ -10,8 +10,11 @@ import {
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchRegister } from "../redux/slice/authSlice";
 
 function Register() {
+  const dispatch= useDispatch()
   const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
   const formik = useFormik({
     initialValues: {
@@ -47,7 +50,7 @@ function Register() {
         .required("your must fill in this section!"),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      dispatch(fetchRegister(values))
     },
   });
   return (

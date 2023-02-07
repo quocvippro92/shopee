@@ -5,13 +5,12 @@ const Cart = () => {
   const stateCart = useSelector((state) => state.listCart.listCart);
   // const count = useSelector((state)=> state.listCart.count);
   const dispatch = useDispatch();
-  const handleIncrease = (cart)=>{
+  const handleIncrease = (cart) => {
     dispatch(increase(cart));
-    
-}
-const handleDecrease = (cart)=>{
+  };
+  const handleDecrease = (cart) => {
     dispatch(decrease(cart));
-}
+  };
   return stateCart.map((cart) => (
     <>
       <div className="container py-5 ">
@@ -22,11 +21,23 @@ const handleDecrease = (cart)=>{
           <div className="col-md-6 ">
             <h4 className="text-uppercase text-black-50">{cart.category}</h4>
             <h1 className="display-5">
-              {} {cart.title}
+               {cart.title}
             </h1>
-            <h3 className="display-6 fw-bold my-4">${cart.price} x {cart.count} = {cart.count * cart.price} $</h3>
-            <button onClick={()=>handleIncrease(cart)} className=" btn btn-outline-dark px-4 py-2 me-2">+</button>
-            <button onClick={()=>handleDecrease(cart)} className=" btn btn-outline-dark px-4 py-2 me-2">-</button>
+            <h3 className="display-6 fw-bold my-4">
+              ${cart.price} x {cart.count} = {cart.count * cart.price} $
+            </h3>
+            <button
+              onClick={() => handleIncrease(cart)}
+              className=" btn btn-outline-dark px-4 py-2 me-2"
+            >
+              +
+            </button>
+            <button
+              onClick={() => handleDecrease(cart)}
+              className=" btn btn-outline-dark px-4 py-2 me-2"
+            >
+              -
+            </button>
           </div>
         </div>
       </div>
