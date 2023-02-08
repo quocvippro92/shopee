@@ -5,6 +5,7 @@ const { get, set } = LocalStorge("cartItem", []);
 const initialState = {
   listCart: get(),
   login: false,
+  user: null
 };
 
 const todoListCart = createSlice({
@@ -41,7 +42,9 @@ const todoListCart = createSlice({
       set(state.listCart);
     },
     sigin: (state, action) => {
-      state.login = action.payload;
+      const username = action.payload
+      state.login = true;
+      state.user = username
     },
   },
 });
@@ -50,3 +53,4 @@ export const { AddCart, DelCart, increase, decrease, sigin } =
   todoListCart.actions;
 export const listCart = todoListCart.reducer;
 export const login = todoListCart.reducer;
+export const user = todoListCart.reducer;

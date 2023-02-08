@@ -11,6 +11,7 @@ import Web from "./component/Web";
 import Cart from "./page/Cart";
 import Register from "./page/Register";
 import Login from "./page/Login";
+import BuyCart from "./page/BuyCart";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route exact path="/products" element={<Products />} />
           <Route exact path="/products/:id" element={<Product />} />
-          <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/cart" element={<BuyCart />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/login" element={<Login />} />
         </Route>

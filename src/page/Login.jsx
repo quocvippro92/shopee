@@ -45,9 +45,8 @@ function Login() {
     onSubmit: (values) => {
       const username = user.findIndex((user)=>user.username === values.username)
       const password = user.findIndex((password)=>password.confirmPassword === values.password)
-      console.log(password);
       if(username !== -1 && password !== -1){
-        dispatch(sigin(true))
+        dispatch(sigin(values))
       }else{
         alert("username hoặc password sai")
       }

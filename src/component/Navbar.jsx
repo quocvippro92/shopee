@@ -3,17 +3,18 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import userEvent from "@testing-library/user-event";
 const NavBar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [search, setSearch] = useState("");
+  const username = useSelector((state) => state.user.user);
   const state = useSelector((state) => state.listCart.listCart);
   const login = useSelector((state) => state.login.login);
-  console.log("login",login)
+  console.log("login", login);
   const sumCart = state.reduce(
     (total, currentValue) => total + currentValue.count,
     0
   );
-  console.log("isMobile", typeof { search });
 
   return (
     <div>
@@ -36,6 +37,7 @@ const NavBar = () => {
           </button>
           <div
             className="collapse navbar-collapse"
+            //repontsive ismobile-----------------
             id={isMobile ? "mobile-menu" : "navbarSupportedContent"}
           >
             <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
@@ -96,12 +98,8 @@ const NavBar = () => {
                   </NavLink>
                 </>
               ) : (
-                <NavLink
-                  to="/register"
-                  className="btn btn-outline-dark  ms-2"
-                  onClick={() => setIsMobile(true)}
-                >
-                  <i className="fa fa-user-plus me-1"></i> quoc
+                <NavLink className="btn btn-outline-dark  ms-2">
+                  <i className="fa fa-user-plus me-1"></i> {username.username}
                 </NavLink>
               )}
 

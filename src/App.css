@@ -17,11 +17,15 @@ p.erro {
 .card-header h1{
   text-align: justify;
 }
-
-  .col-md-6 {
+.col-md-6 {
     flex: 0 0 auto;
     width: 50%;
     height: 850px;
+}
+button.btn.btn-outline-dark.px-4.py-2.buyProduct {
+  display: block;
+  margin: 10px auto 100px;
+  align-items: center;
 }
 
 @media screen and (max-width:750px) {
@@ -98,3 +102,4 @@ i.fa.fa-instagram {
   border-top: 1px solid #313130;
   padding-top: 20px;
 }
+

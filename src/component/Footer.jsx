@@ -7,9 +7,9 @@ const Footer = () => {
       <div className="container-fluid">
         <div className="row">
           <div className="col col-md-3 col-sm-12 footer-item">
-            <div class="item">
+            <div className="item">
               <Link  to="/product-exchange" className="item-color">
-                <i class="fa fa-clock-o clock" aria-hidden="true"></i>
+                <i className="fa fa-clock-o clock" aria-hidden="true"></i>
                 <div>
                   <p>
                     <h5>6 ngày đổi sản phẩm</h5>
@@ -20,9 +20,9 @@ const Footer = () => {
             </div>
           </div>
           <div className="col col-md-3 col-sm-12  footer-item" >
-            <div class="item">
+            <div className="item">
               <Link  to="/product-phone" className="item-color">
-                <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
+                <i className="fa fa-volume-control-phone" aria-hidden="true"></i>
                 <div>
                   <p>
                     <h5>Hotline 1800 6650</h5>
@@ -33,9 +33,9 @@ const Footer = () => {
             </div>
           </div>
           <div className="col col-md-3 col-sm-12 footer-item">
-            <div class="item">
+            <div className="item">
               <Link  to="/product-truck" className="item-color">
-              <i class="fa fa-truck" aria-hidden="true"></i>
+              <i className="fa fa-truck" aria-hidden="true"></i>
                 <div>
                   <p>
                     <h5>Vận Chuyển</h5>
@@ -46,9 +46,9 @@ const Footer = () => {
             </div>
           </div>
           <div className="col col-md-3 col-sm-12  footer-item">
-            <div class="item">
+            <div className="item">
               <Link  to="/product-fa-home" className="item-color">
-              <i class="fa fa-home" aria-hidden="true"></i>
+              <i className="fa fa-home" aria-hidden="true"></i>
                 <div>
                   <p>
                     <h5>Hệ Thống Cửa Hàng</h5>
@@ -61,7 +61,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="container">
-        <div class="row end">
+        <div className="row end">
           <div className="col col-md-4 col-sm-12 ">
             <div className="item-item">
               <h3>QH-SHOP</h3>
@@ -81,14 +81,14 @@ const Footer = () => {
             <div className="item-item">
               <h3>SOCIAL NETWORK</h3>
               <div className="social-network">
-              <i class="fa fa-instagram" aria-hidden="true"></i>
-              <i class="fa fa-facebook" aria-hidden="true"></i>
-              <i class="fa fa-youtube-play" aria-hidden="true"></i>
-              <i class="fa fa-twitter" aria-hidden="true"></i>
+              <i className="fa fa-instagram" aria-hidden="true"></i>
+              <i className="fa fa-facebook" aria-hidden="true"></i>
+              <i className="fa fa-youtube-play" aria-hidden="true"></i>
+              <i className="fa fa-twitter" aria-hidden="true"></i>
               </div>
             </div>
           </div>
-          <div class="copyright">
+          <div className="copyright">
                 <span>©2020 QH-SHOP.VN</span>
             </div>
         </div>

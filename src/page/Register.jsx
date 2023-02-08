@@ -211,6 +211,7 @@ function Register() {
                       className="btn btn-outline-dark w-25 "
                     >
                       Sign in
+                      
                     </button>
                     <div className="text-center text-md-start mt-4 pt-2">
                       <p className="small fw-bold mt-2 pt-1 mb-2 fs-3">
