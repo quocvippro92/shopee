@@ -11,14 +11,17 @@ import { NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
+import {useDispatch} from "react-redux"
+import {  sigin } from "../redux/slice/createrSlice";
 
 
 
 function Login() {
   const [user,setUser]= useState([])
+  const dispatch = useDispatch();
   useEffect(() => {
     const getUser= async () => { 
-      const response = await fetch(`http://fakestoreapi.com/products/${id}`);
+      const response = await fetch(`http://localhost:3003/api/auth/login/users`);
       setUser(await response.json());
     };
     getUser();
@@ -26,25 +29,32 @@ function Login() {
   const formik = useFormik({
     initialValues: {  
       password: "",
-      email: "",
+      username: "",
     },
     validationSchema: yup.object().shape({
-      email: yup
+      username: yup
         .string()
-        .email("Invalid Email")
-        .required("your must fill in this section!"),
+        .min(5, "your name must be at least 5 characters!")
+        .max(30, "your name must be under 30 characters")
+        .required("you have not entered name"),
       password: yup
         .string()
         .min(8, "Your name must be at least 8 characters!")
         .required("your must fill inn this section!"),
     }),
     onSubmit: (values) => {
-      console.log(values)
+      const username = user.findIndex((user)=>user.username === values.username)
+      const password = user.findIndex((password)=>password.confirmPassword === values.password)
+      console.log(password);
+      if(username !== -1 && password !== -1){
+        dispatch(sigin(true))
+      }else{
+        alert("username hoặc password sai")
+      }
     },
   });
   
   
-
   return (
     <MDBContainer fluid className="p-3 my-5 h-custom">
       <MDBRow>
@@ -81,33 +91,35 @@ function Login() {
 
           <form onSubmit={formik.handleSubmit}>
             
-            <div className="row mb-3">
-              <label className="col-sm-4 col-form-label fw-bold ">Email</label>
-              <div className="col-sm-8">
-                <input
-                  type="email"
-                  name="email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  className="form-control"
-                  placeholder="Email..."
-                  id="inputEmail3"
-                />
-                <div>
-                  {formik.errors.email && formik.touched.email && (
-                    <p className="erro">{formik.errors.email}</p>
-                  )}
-                </div>
-                
-              </div>
-            </div>
+          <div className="row mb-3">
+                      <label className="col-sm-4 col-form-label fw-bold ">
+                        Username
+                      </label>
+                      <div className="col-sm-8">
+                        <input
+                          type="text"
+                          name="username"
+                          value={formik.values.username}
+                          onChange={formik.handleChange}
+                          placeholder="Username"
+                          className="form-control"
+                        />
+                        <div>
+                          {formik.errors.username &&
+                            formik.touched.username && (
+                              <p className="erro">{formik.errors.username}</p>
+                            )}
+                        </div>
+                      </div>
+                    </div>
+            
             <div className="row mb-3">
               <label className="col-sm-4 col-form-label fw-bold ">
                 password
               </label>
               <div className="col-sm-8">
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   value={formik.values.password}
                   onChange={formik.handleChange}

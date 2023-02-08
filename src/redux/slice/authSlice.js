@@ -11,7 +11,6 @@ export const fetchRegister = createAsyncThunk(
     return response.data;
   }
 );
-
 const todoInitalState = {
   user: null,
   fetching: false,
