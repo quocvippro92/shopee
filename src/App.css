@@ -27,6 +27,9 @@ button.btn.btn-outline-dark.px-4.py-2.buyProduct {
   margin: 10px auto 100px;
   align-items: center;
 }
+.btn-delete:hover{
+  background-color: red !important;
+}
 
 @media screen and (max-width:750px) {
   .focus {

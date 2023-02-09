@@ -1,12 +1,11 @@
 
 import {configureStore} from "@reduxjs/toolkit"
-import { todoReducer } from "../slice/authSlice"
-import { listCart, login, user } from "../slice/createrSlice"
+import { authReducer } from "../slice/authSlice"
+import { productByCategory } from "../slice/productSlice"
+
 const rootReducer = {
-    listCart : listCart,
-    login : login,
-    todoReducer:todoReducer,
-    user:user,
+    productByCategory:productByCategory,
+    authReducer:authReducer,
 }
 export const store = configureStore({
     reducer:rootReducer,

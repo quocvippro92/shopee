@@ -1,8 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { decrease, increase } from "../redux/slice/createrSlice";
+import { decrease, DelCart, increase } from "../../redux/slice/productSlice";
+
 const Cart = () => {
-  const stateCart = useSelector((state) => state.listCart.listCart);
+  const stateCart = useSelector((state) => state.productByCategory.productByCategory);
   // const count = useSelector((state)=> state.listCart.count);
   const dispatch = useDispatch();
   const handleIncrease = (cart) => {
@@ -11,9 +12,12 @@ const Cart = () => {
   const handleDecrease = (cart) => {
     dispatch(decrease(cart));
   };
+  const handleDelete = (product)=>{
+    dispatch(DelCart(product))
+  }
   return stateCart.map((cart) => (
     <>
-      <div className="container py-5 ">
+      <div className="container py-5 " >
         <div className="row py-4">
           <div className="col-md-6">
             <img src={cart.image} alt={cart.title} height={400} width={400} />
@@ -37,6 +41,12 @@ const Cart = () => {
               className=" btn btn-outline-dark px-4 py-2 me-2"
             >
               -
+            </button>
+            <button
+              className=" btn btn-outline-dark btn-delete px-4 py-2 me-2"
+              onClick={()=>handleDelete(cart)}
+            >
+              DELETE
             </button>
           </div>
         </div>

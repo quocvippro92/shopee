@@ -2,15 +2,13 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import userEvent from "@testing-library/user-event";
+
 const NavBar = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const [search, setSearch] = useState("");
-  const username = useSelector((state) => state.user.user);
-  const state = useSelector((state) => state.listCart.listCart);
-  const login = useSelector((state) => state.login.login);
-  console.log("login", login);
+  // const [search, setSearch] = useState("");
+  const state = useSelector((state) => state.productByCategory.productByCategory);
+  const login = useSelector((state) => state.authReducer.user);
+  console.log("ssss",login);
   const sumCart = state.reduce(
     (total, currentValue) => total + currentValue.count,
     0
@@ -80,28 +78,29 @@ const NavBar = () => {
               </form> */}
             </ul>
             <div className="buttons">
-              {!login ? (
-                <>
-                  <NavLink
-                    to="/login"
-                    className="btn btn-outline-dark "
-                    onClick={() => setIsMobile(true)}
-                  >
-                    <i className="fa fa-sign-in me-1"></i> Login
-                  </NavLink>
-                  <NavLink
-                    to="/register"
-                    className="btn btn-outline-dark  ms-2"
-                    onClick={() => setIsMobile(true)}
-                  >
-                    <i className="fa fa-user-plus me-1"></i> Register
-                  </NavLink>
-                </>
-              ) : (
-                <NavLink className="btn btn-outline-dark  ms-2">
-                  <i className="fa fa-user-plus me-1"></i> {username.username}
+              {login !== null ? <NavLink
+                  to="/login"
+                  className="btn btn-outline-dark "
+                  onClick={() => setIsMobile(true)}
+                >
+                   <i className="fa fa-user-plus me-1"></i>{login.user.username}
+                </NavLink> : <>
+                <NavLink
+                  to="/login"
+                  className="btn btn-outline-dark "
+                  onClick={() => setIsMobile(true)}
+                >
+                  <i className="fa fa-sign-in me-1"></i> Login
                 </NavLink>
-              )}
+                <NavLink
+                  to="/register"
+                  className="btn btn-outline-dark  ms-2"
+                  onClick={() => setIsMobile(true)}
+                >
+                  <i className="fa fa-user-plus me-1"></i> Register
+                </NavLink>
+              </> }
+              
 
               <NavLink
                 to="/cart"

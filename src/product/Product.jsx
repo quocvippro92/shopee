@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch } from "react-redux";
-import { AddCart } from "../redux/slice/createrSlice";
+import { AddCart } from "../redux/slice/productSlice.js";
 const Product = () => {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);

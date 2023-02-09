@@ -1,40 +1,70 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authApi } from "../../api/auth.api";
-import Login from "../../page/Login";
+
 
 //tạo redux thuk để lấy data về
 
 export const fetchRegister = createAsyncThunk(
-  "todo/fetchRegister", //đầu tiên phải lấy tiền tố name:là 'todo' và sau đó là tên của khởi tạo
+  "todo/register", //đầu tiên phải lấy tiền tố name:là 'todo' và sau đó là tên của khởi tạo
   async (payload, thunkAPI) => {
     const response = await authApi.register(payload); //await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
+    console.log("register",response);
     return response.data;
   }
 );
-const todoInitalState = {
+
+export const login = createAsyncThunk(
+  "todo/login", //đầu tiên phải lấy tiền tố name:là 'todo' và sau đó là tên của khởi tạo
+  async (payload, thunkAPI) => {
+    const response = await authApi.login(payload); //await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
+    console.log("response",response);
+    return response.data;
+  }
+);
+
+const authInitalState = {
   user: null,
-  fetching: false,
+  loadingRegister: false,
+  loadingLogin: false,
 };
 
 
+
 const todoSlice = createSlice({
-  name: "register",
-  initialState: todoInitalState,
+  name: "auth",
+  initialState: authInitalState,
   extraReducers: (builder) => {
     //peding là đang xử lý
     builder.addCase(fetchRegister.pending, (state, action) => {
-      state.fetching = true;
+      state.loadingRegister = true;
     });
     //fulfilled là thành công
     builder.addCase(fetchRegister.fulfilled, (state, action) => {
-      state.fetching = false;
+      state.loadingRegister = false;
+      console.log(action);
       alert("Đăng ký thành công", action.payload);
     });
     //rejected là thông báo thất bại
     builder.addCase(fetchRegister.rejected, (state, action) => {
-      state.fetching = false;
+      state.loadingRegister = false;
+    });
+
+    //peding là đang xử lý
+    builder.addCase(login.pending, (state, action) => {
+      state.loadingLogin = true;
+    });
+    //fulfilled là thành công
+    builder.addCase(login.fulfilled, (state, action) => {
+      state.loadingLogin = false;
+      state.user = action.payload
+      alert("thanh cong")
+    });
+    //rejected là thông báo thất bại
+    builder.addCase(login.rejected, (state, action) => {
+      state.loadingLogin = false;
     });
   },
 });
 
-export const todoReducer = todoSlice.reducer;
+export const authReducer = todoSlice.reducer;
+

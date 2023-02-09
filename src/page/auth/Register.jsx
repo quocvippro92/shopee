@@ -11,7 +11,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { fetchRegister } from "../redux/slice/authSlice";
+import { fetchRegister } from "../../redux/slice/authSlice";
+
 
 function Register() {
   const dispatch= useDispatch()
