@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import LocalStorge from "../../localstroge/Localstroge";
 
-
 //tạo redux thuk để lấy data về
 const { get, set } = LocalStorge("cartItem", []);
 const productInitalState = {
   productByCategory: get(),
-  currentPage: 1,
-  perPage: 10,
+  currentPage:1,     
+  limitPage: 10,    
   textSearch: "",
 };
 
@@ -21,31 +20,37 @@ const productSlice = createSlice({
         (index) => index.id === product.id
       );
       if (index === -1) {
-        state.productByCategory = [{ ...product, count: 1 }, ...state.productByCategory];
+        state.productByCategory = [
+          { ...product, count: 1 },
+          ...state.productByCategory,
+        ];
       } else {
         state.productByCategory[index].count++;
       }
       set(state.productByCategory);
     },
     DelCart: (state, action) => {
-      const product = action.payload
-      console.log("product",product)
+      const cateloryProduct = [...state.productByCategory];
+      const product = action.payload;
       const index = state.productByCategory.findIndex(
         (index) => index.id === product.id
       );
-      if(index !== -1){
-        state.productByCategory.splice(state.productByCategory[product.id],1)
-      }
-      set(state.productByCategory)
+      cateloryProduct.splice(index, 1);
+      state.productByCategory = cateloryProduct;
+      set(state.productByCategory);
     },
     increase: (state, action) => {
       const data = action.payload;
-      const index = state.productByCategory.findIndex((index) => index.id === data.id);
-      state.listCart[index].count++;
+      const index = state.productByCategory.findIndex(
+        (index) => index.id === data.id
+      );
+      state.productByCategory[index].count++;
     },
     decrease: (state, action) => {
       const data = action.payload;
-      const index = state.productByCategory.findIndex((index) => index.id === data.id);
+      const index = state.productByCategory.findIndex(
+        (index) => index.id === data.id
+      );
       if (data.count > 0) {
         state.productByCategory[index].count--;
       } else {
@@ -53,8 +58,13 @@ const productSlice = createSlice({
       }
       set(state.productByCategory);
     },
+
+    renderPageProduct:(state,action)=>{
+      state.currentPage = action.payload
+      
+    }
   },
 });
-export const { AddCart, DelCart, increase, decrease, sigin } =
-productSlice.actions;
+export const { AddCart, DelCart, increase, decrease, sigin,renderPageProduct} =
+  productSlice.actions;
 export const productByCategory = productSlice.reducer;

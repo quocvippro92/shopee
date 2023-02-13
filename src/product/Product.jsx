@@ -14,13 +14,13 @@ const Product = () => {
   useEffect(() => {
     const getProduct = async () => {
       setLoading(true);
-      const response = await fetch(`http://fakestoreapi.com/products/${id}`);
+      const response = await fetch(`http://localhost:3000/product/${id}`);
       setProduct(await response.json());
       setLoading(false);
     };
     getProduct();
   }, []);
-
+  
   const handleAddCart = (product) => {
     dispatch(AddCart(product));
   };

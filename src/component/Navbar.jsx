@@ -8,7 +8,6 @@ const NavBar = () => {
   // const [search, setSearch] = useState("");
   const state = useSelector((state) => state.productByCategory.productByCategory);
   const login = useSelector((state) => state.authReducer.user);
-  console.log("ssss",login);
   const sumCart = state.reduce(
     (total, currentValue) => total + currentValue.count,
     0

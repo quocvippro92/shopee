@@ -106,3 +106,37 @@ i.fa.fa-instagram {
   padding-top: 20px;
 }
 
+
+/* paginatinal------------------ */
+.pageNumber{
+  display: flex;
+  width: 100%;
+  font-size: 18px;
+  font-weight: 700;
+  padding-top: 30px;
+}
+.number,
+.previous {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  text-align: center;
+  margin: 1px;
+  cursor: pointer;
+}
+
+.number:focus{
+  border-color: #313130 ;
+  outline: #212529 ;
+}
+.previous:focus{
+  border-color: #313130 ;
+  outline: #212529 ;
+}
+
+.active{
+  border-color: #313130;
+  border: 1px solid black;
+  outline: #212529;
+}

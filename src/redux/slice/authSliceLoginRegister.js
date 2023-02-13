@@ -8,7 +8,6 @@ export const fetchRegister = createAsyncThunk(
   "todo/register", //đầu tiên phải lấy tiền tố name:là 'todo' và sau đó là tên của khởi tạo
   async (payload, thunkAPI) => {
     const response = await authApi.register(payload); //await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
-    console.log("register",response);
     return response.data;
   }
 );
@@ -16,16 +15,18 @@ export const fetchRegister = createAsyncThunk(
 export const login = createAsyncThunk(
   "todo/login", //đầu tiên phải lấy tiền tố name:là 'todo' và sau đó là tên của khởi tạo
   async (payload, thunkAPI) => {
-    const response = await authApi.login(payload); //await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
+    const response = await authApi.login(payload);//await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
     console.log("response",response);
     return response.data;
   }
 );
 
+
 const authInitalState = {
   user: null,
   loadingRegister: false,
   loadingLogin: false,
+  loadingProduct:false
 };
 
 
@@ -41,7 +42,6 @@ const todoSlice = createSlice({
     //fulfilled là thành công
     builder.addCase(fetchRegister.fulfilled, (state, action) => {
       state.loadingRegister = false;
-      console.log(action);
       alert("Đăng ký thành công", action.payload);
     });
     //rejected là thông báo thất bại
@@ -49,6 +49,9 @@ const todoSlice = createSlice({
       state.loadingRegister = false;
     });
 
+
+
+    // login----------
     //peding là đang xử lý
     builder.addCase(login.pending, (state, action) => {
       state.loadingLogin = true;
@@ -65,6 +68,5 @@ const todoSlice = createSlice({
     });
   },
 });
-
 export const authReducer = todoSlice.reducer;
 
