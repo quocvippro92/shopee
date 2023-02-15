@@ -61,10 +61,16 @@ const productSlice = createSlice({
 
     renderPageProduct:(state,action)=>{
       state.currentPage = action.payload
-      
+    },
+    previous:(state,action)=>{
+      state.currentPage = action.payload
+    },
+    nextPage:(state,action)=>{
+
     }
+
   },
 });
-export const { AddCart, DelCart, increase, decrease, sigin,renderPageProduct} =
+export const { AddCart, DelCart, increase, decrease, sigin,renderPageProduct,previous,nextPage} =
   productSlice.actions;
 export const productByCategory = productSlice.reducer;

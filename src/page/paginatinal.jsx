@@ -1,13 +1,11 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { renderPageProduct } from "../redux/slice/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { nextPage, renderPageProduct } from "../redux/slice/productSlice";
 const Paginatinal = ({ data }) => {
   const dispatch = useDispatch();
-  const active = false;
   const totalPage = Math.ceil(data.length / 10);
   const handlePageNumber = (number) => {
     dispatch(renderPageProduct(number));
-    active=true
   };
   const renderNumberPage = () => {
     let pages = [];
@@ -18,7 +16,7 @@ const Paginatinal = ({ data }) => {
   };
   return (
     <div className="pageNumber">
-      <div className="previous">{"<"}</div>
+      <div className="previous" >{"<"}</div>
       {renderNumberPage()}
       <div className="previous">{`>`}</div>
     </div>
