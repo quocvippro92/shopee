@@ -16,7 +16,6 @@ export const login = createAsyncThunk(
   "todo/login", //đầu tiên phải lấy tiền tố name:là 'todo' và sau đó là tên của khởi tạo
   async (payload, thunkAPI) => {
     const response = await authApi.login(payload);//await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
-    console.log("response",response);
     return response.data;
   }
 );
@@ -26,7 +25,6 @@ const authInitalState = {
   user: null,
   loadingRegister: false,
   loadingLogin: false,
-  loadingProduct:false
 };
 
 
@@ -66,7 +64,7 @@ const todoSlice = createSlice({
     builder.addCase(login.rejected, (state, action) => {
       state.loadingLogin = false;
     });
-  },
+  }
 });
 export const authReducer = todoSlice.reducer;
 

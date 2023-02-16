@@ -2,37 +2,34 @@ import React, { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { NavLink } from "react-router-dom";
 import "react-loading-skeleton/dist/skeleton.css";
-import Paginatinal from "../page/paginatinal";
-import { useSelector } from "react-redux";
+
+import { Pagination } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changePagination,
+  fetchProducts,
+  filterCategory,
+} from "../redux/slice/authSliceProducts";
 
 const Products = () => {
-  const [data, setData] = useState([]);
-  const [filter, setFilter] = useState(data);
-  const [loading, setLoading] = useState(false);
-  const currentPage = useSelector(state => state.productByCategory.currentPage)
-  const limitPage = useSelector(state=>state.productByCategory.limitPage)
-  
-  const pageProduct = filter.slice(
-    (currentPage - 1) * limitPage,
-    (currentPage - 1) * (currentPage - 1) * limitPage + limitPage
+  const products = useSelector((state) => state.authReducerProducts.products);
+  const pagination = useSelector(
+    (state) => state.authReducerProducts.pagination
   );
-  let componentMounted = true;
- 
+  const productPagination = useSelector((state) => state.authReducerProducts.pagination);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    const getProducts = async () => {
-      setLoading(true);
-      const response = await fetch("http://localhost:3000/product");
-      if (componentMounted) {
-        setData(await response.clone().json());
-        setFilter(await response.json());
-        setLoading(false);
-      }
-      return () => {
-        componentMounted = false;
-      };
-    };
-    getProducts();
-  }, []);
+    dispatch(
+      fetchProducts({
+        page: `${pagination.page}`,
+        limit: `${pagination.limit}`,
+        category: `${pagination.category}`,
+      })
+    );
+    setLoading(false);
+  }, [pagination]);
 
   const Loading = () => {
     return (
@@ -54,11 +51,9 @@ const Products = () => {
   };
 
   const filterProduct = (cat) => {
-    const updateList = data.filter((x) => x.category === cat);
-    setFilter(updateList);
+    dispatch(filterCategory(cat));
   };
-
- 
+  const handleChangeProduct = () => {};
 
   const ShowProducts = () => {
     return (
@@ -66,9 +61,7 @@ const Products = () => {
         <div className="buttons d-flex justify-content-center mb-5 pb-5">
           <button
             className="btn btn-outline-dark me-2"
-            onClick={() => {
-              setFilter(data);
-            }}
+            onClick={() => handleChangeProduct()}
           >
             All
           </button>
@@ -105,7 +98,7 @@ const Products = () => {
             Electronic
           </button>
         </div>
-        {pageProduct.map((product) => {
+        {products.map((product) => {
           return (
             <div className="col-md-3 mb-4">
               <div className="card h-100 text-center p-4 ">
@@ -117,11 +110,11 @@ const Products = () => {
                 />
                 <div className="card-body">
                   <h5 className="card-title">
-                    {product.title.substring(0, 12)}...
+                    {product.title.substring(1, 12)}...
                   </h5>
                   <p className="card-text  lead fw-bold">${product.price}</p>
                   <NavLink
-                    to={`/products/${product.id}`}
+                    to={`/product/${product.id}`}
                     className="btn btn-outline-dark"
                   >
                     Buy Now
@@ -145,7 +138,14 @@ const Products = () => {
         </div>
         <div className="row justify-content-center">
           {loading ? <Loading /> : <ShowProducts />}
-          <Paginatinal data = {data}/>
+          <Pagination
+            onChange={(page, pageSize) => {
+              dispatch(changePagination({ page: page, limit: pageSize }));
+            }}
+            current={Number(productPagination.page)}
+            total={Number(productPagination.total)}
+            pageSize={Number(productPagination.limit)}
+          />
         </div>
       </div>
     </div>

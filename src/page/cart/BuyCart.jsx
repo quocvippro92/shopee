@@ -1,18 +1,17 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { decrease, DelCart, increase } from "../../redux/slice/productSlice";
+import { decrease, DelCart, increase } from "../../redux/slice/authSliceProduct";
+
 
 
 const BuyCart = () => {
   const account= useSelector(state=> state.authReducer.user)
-  console.log(account)
-
   const handleBuyProduct = ()=>{
     {account !== null ? alert("mua thanh cong") : alert("vui lòng qua trang login để đăng nhập :))")}
   }
   const Cart = () => {
     const stateCart = useSelector(
-      (state) => state.productByCategory.productByCategory
+      (state) => state.authReducerProduct.productByCategory
     );
     // const count = useSelector((state)=> state.listCart.count);
     const dispatch = useDispatch();

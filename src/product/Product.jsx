@@ -4,21 +4,18 @@ import { useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton from "react-loading-skeleton";
-import { useDispatch } from "react-redux";
-import { AddCart } from "../redux/slice/productSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+
+import { AddCart, fetchProduct } from "../redux/slice/authSliceProduct.js";
+
 const Product = () => {
-  const [product, setProduct] = useState([]);
+  const product = useSelector(state=>state.authReducerProduct.product)
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
-    const getProduct = async () => {
-      setLoading(true);
-      const response = await fetch(`http://localhost:3000/product/${id}`);
-      setProduct(await response.json());
+      dispatch(fetchProduct(id))
       setLoading(false);
-    };
-    getProduct();
   }, []);
   
   const handleAddCart = (product) => {
