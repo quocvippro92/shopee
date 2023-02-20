@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   MDBContainer,
   MDBCol,
@@ -10,12 +10,14 @@ import { NavLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/slice/authSliceLoginRegister";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/action/auth.action";
+
+
+
 
 
 function Login() {
-  const [user, setUser] = useState([]);
   const dispatch = useDispatch();
   
   const formik = useFormik({
@@ -40,6 +42,7 @@ function Login() {
 
 
   return (
+    <>
     <MDBContainer fluid className="p-3 my-5 h-custom">
       <MDBRow>
         <MDBCol col="10" md="6">
@@ -123,7 +126,7 @@ function Login() {
                 </div>
               </div>
             </div>
-            <button type="submit" className="btn btn-outline-dark w-25 ">
+            <button type="submit" className="btn btn-outline-dark w-25 " >
               Sign in
             </button>
           </form>
@@ -136,6 +139,7 @@ function Login() {
         </MDBCol>
       </MDBRow>
     </MDBContainer>
+    </>
   );
 }
 

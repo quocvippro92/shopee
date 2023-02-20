@@ -7,7 +7,6 @@ const NavBar = () => {
   const [isMobile, setIsMobile] = useState(false);
   // const [search, setSearch] = useState("");
   const state = useSelector((state) => state.authReducerProduct.productByCategory);
-  console.log(state);
   const login = useSelector((state) => state.authReducer.user);
   const sumCart = state.reduce(
     (total,currentValue) => total + currentValue.count,

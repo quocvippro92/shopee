@@ -5,8 +5,10 @@ import { NavLink } from "react-router-dom";
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
+import { AddCart } from "../../redux/slice/sliceProduct";
+import { fetchProduct } from "../../redux/action/productAction";
 
-import { AddCart, fetchProduct } from "../redux/slice/authSliceProduct.js";
+
 
 const Product = () => {
   const product = useSelector(state=>state.authReducerProduct.product)
@@ -21,7 +23,6 @@ const Product = () => {
   const handleAddCart = (product) => {
     dispatch(AddCart(product));
   };
-
   const Loading = () => {
     return (
       <>

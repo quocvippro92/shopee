@@ -1,8 +1,8 @@
 
 import {configureStore} from "@reduxjs/toolkit"
-import { authReducer } from "../slice/authSliceLoginRegister"
-import { authReducerProduct } from "../slice/authSliceProduct"
-import {  authReducerProducts } from "../slice/authSliceProducts"
+import { authReducer } from "../slice/sliceLoginRegister"
+import { authReducerProduct } from "../slice/sliceProduct"
+import {  authReducerProducts } from "../slice/sliceProducts"
 
 
 const rootReducer = {

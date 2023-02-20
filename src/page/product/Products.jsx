@@ -5,11 +5,12 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import { Pagination } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  changePagination,
-  fetchProducts,
-  filterCategory,
-} from "../redux/slice/authSliceProducts";
+
+import { changePagination, filterCategory } from "../../redux/slice/sliceProducts";
+import { fetchProducts } from "../../redux/action/productData";
+
+
+
 
 const Products = () => {
   const products = useSelector((state) => state.authReducerProducts.products);
@@ -35,7 +36,7 @@ const Products = () => {
     return (
       <>
         <div className="col-md-3">
-          <Skeleton height={350} />
+          <Skeleton height={350}/>
         </div>
         <div className="col-md-3">
           <Skeleton height={350} />
@@ -53,15 +54,15 @@ const Products = () => {
   const filterProduct = (cat) => {
     dispatch(filterCategory(cat));
   };
-  const handleChangeProduct = () => {};
-
   const ShowProducts = () => {
     return (
       <>
         <div className="buttons d-flex justify-content-center mb-5 pb-5">
           <button
             className="btn btn-outline-dark me-2"
-            onClick={() => handleChangeProduct()}
+            onClick={() => {
+              filterProduct("");
+            }}
           >
             All
           </button>
@@ -110,7 +111,7 @@ const Products = () => {
                 />
                 <div className="card-body">
                   <h5 className="card-title">
-                    {product.title.substring(1, 12)}...
+                    {product.title.substring(0, 12)}...
                   </h5>
                   <p className="card-text  lead fw-bold">${product.price}</p>
                   <NavLink

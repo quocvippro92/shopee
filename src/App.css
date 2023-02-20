@@ -14,13 +14,41 @@ p.erro {
 .card-header{
   background-color: #e8e1dd !important;
 }
+.product_item{
+  background-color: #ccc;
+}
 .card-header h1{
   text-align: justify;
+}
+.numberOf {
+  text-align: center !important;
+  padding-right: 30px !important;
+  padding-left: 20px !important;
+  font-size: 18px !important;
+  font-weight: 700 !important ;
+}
+.col-md-12.buyProduct_item.header{
+  font-size: 25px;
+  font-weight: 800;
+  text-align: center;
+}
+.container.product_item {
+  margin-bottom: 20px;
+}
+.py-4.buyProduct {
+  text-align: center;
+}
+.col-md-12.buyProduct_item,
+.col-md-3.buyProduct_item {
+  text-align: center;
+  font-weight: 700;
+}
+.display-5{
+  font-size: 20px !important;
 }
 .col-md-6 {
     flex: 0 0 auto;
     width: 50%;
-    height: 850px;
 }
 button.btn.btn-outline-dark.px-4.py-2.buyProduct {
   display: block;
@@ -138,7 +166,15 @@ i.fa.fa-instagram {
 
 
 
-.col-md-3.mb-4:hover {
-  transform: translateY(-5px);
-  box-shadow:2px 2px 5px  #313130;
+.card.h-100.text-center.p-4:hover {
+  transform: translateY(-20px);
+  box-shadow: 2px 2px 5px #313130;
+}
+
+/* alert----- */
+div#root {
+  position: relative;
+}
+.hero {
+  position: relative;
 }

@@ -1,24 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast, ToastContainer } from "react-toastify";
 import { authApi } from "../../api/auth.api";
-
+import { fetchRegister, login } from "../action/auth.action";
 
 //tạo redux thuk để lấy data về
 
-export const fetchRegister = createAsyncThunk(
-  "todo/register", //đầu tiên phải lấy tiền tố name:là 'todo' và sau đó là tên của khởi tạo
-  async (payload, thunkAPI) => {
-    const response = await authApi.register(payload); //await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
-    return response.data;
-  }
-);
-
-export const login = createAsyncThunk(
-  "todo/login", //đầu tiên phải lấy tiền tố name:là 'todo' và sau đó là tên của khởi tạo
-  async (payload, thunkAPI) => {
-    const response = await authApi.login(payload);//await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
-    return response.data;
-  }
-);
 
 
 const authInitalState = {
@@ -26,8 +12,6 @@ const authInitalState = {
   loadingRegister: false,
   loadingLogin: false,
 };
-
-
 
 const todoSlice = createSlice({
   name: "auth",
@@ -47,8 +31,6 @@ const todoSlice = createSlice({
       state.loadingRegister = false;
     });
 
-
-
     // login----------
     //peding là đang xử lý
     builder.addCase(login.pending, (state, action) => {
@@ -57,14 +39,16 @@ const todoSlice = createSlice({
     //fulfilled là thành công
     builder.addCase(login.fulfilled, (state, action) => {
       state.loadingLogin = false;
-      state.user = action.payload
-      alert("thanh cong")
+      if (state.loadingLogin === false) {
+        alert("dang nhap thanh cong")
+      }
+      state.user = action.payload;
     });
     //rejected là thông báo thất bại
     builder.addCase(login.rejected, (state, action) => {
       state.loadingLogin = false;
+      alert("sai gmail hoac mat khau");
     });
-  }
+  },
 });
 export const authReducer = todoSlice.reducer;
-
