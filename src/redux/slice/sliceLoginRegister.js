@@ -24,7 +24,7 @@ const todoSlice = createSlice({
     //fulfilled là thành công
     builder.addCase(fetchRegister.fulfilled, (state, action) => {
       state.loadingRegister = false;
-      alert("Đăng ký thành công", action.payload);
+      alert("Đăng ký thành công");
     });
     //rejected là thông báo thất bại
     builder.addCase(fetchRegister.rejected, (state, action) => {

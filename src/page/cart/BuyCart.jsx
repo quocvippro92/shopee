@@ -30,6 +30,7 @@ const BuyCart = () => {
             <div className="col-md-3 buyProduct_item">{cart.count}</div>
             <div className="col-md-3 buyProduct_item">
               {cart.count * cart.price}$
+              
             </div>
           </div>
         </div>

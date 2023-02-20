@@ -21,7 +21,7 @@ function App() {
           <Route exact path={ROUTER.products_id} element={<Product />} />
           <Route exact path={ROUTER.cart} element={<BuyCart />} />
           <Route exact path={ROUTER.register} element={<Register />} />
-          <Route exact path={ROUTER.login} element={login ? <Login /> : <Home/> } />
+          <Route exact path={ROUTER.login} element={login ===null ? <Login /> : <Home/> } />
         </Route>
       </Routes>
       

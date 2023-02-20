@@ -12,7 +12,7 @@ const authInitalState = {
 };
 
 const todoSliceProduct = createSlice({
-  name: "product",
+  name: "cart",
   initialState: authInitalState,
   reducers: {
     AddCart: (state, action) => {

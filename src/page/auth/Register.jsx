@@ -208,6 +208,7 @@ function Register() {
                         </div>
                       </div>
                     </div>
+                    <NavLink to="/login">
                     <button
                       type="submit"
                       className="btn btn-outline-dark w-25 "
@@ -215,6 +216,8 @@ function Register() {
                       Sign in
                       
                     </button>
+                    </NavLink>
+                    
                     <div className="text-center text-md-start mt-4 pt-2">
                       <p className="small fw-bold mt-2 pt-1 mb-2 fs-3">
                         Have already an account?{" "}
