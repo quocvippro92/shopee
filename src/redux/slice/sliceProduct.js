@@ -10,7 +10,7 @@ const authInitalState = {
   productByCategory: get(),
   product: [],
 };
-
+  
 const todoSliceProduct = createSlice({
   name: "cart",
   initialState: authInitalState,
@@ -20,6 +20,7 @@ const todoSliceProduct = createSlice({
       const index = state.productByCategory.findIndex(
         (index) => index.id === product.id
       );
+      
       if (index === -1) {
         state.productByCategory = [
           { ...product, count: 1 ,total:product.price,},
@@ -28,6 +29,7 @@ const todoSliceProduct = createSlice({
         
       } else {
         state.productByCategory[index].count++;
+        state.productByCategory[index].total = state.productByCategory[index].count * state.productByCategory[index].price;
       }
       set(state.productByCategory);
     },
@@ -47,6 +49,7 @@ const todoSliceProduct = createSlice({
         (index) => index.id === data.id
       );
       state.productByCategory[index].count++;
+      state.productByCategory[index].total = state.productByCategory[index].count * state.productByCategory[index].price;
       set(state.productByCategory);
 
     },
@@ -57,6 +60,7 @@ const todoSliceProduct = createSlice({
       );
       if (data.count > 0) {
         state.productByCategory[index].count--;
+        state.productByCategory[index].total = state.productByCategory[index].count * state.productByCategory[index].price;
       } else {
         state.productByCategory.splice(index, 1);
       }
