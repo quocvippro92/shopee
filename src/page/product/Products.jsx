@@ -6,8 +6,9 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Pagination } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 
-import { changePagination, filterCategory } from "../../redux/slice/sliceProducts";
-import { fetchProducts } from "../../redux/action/productData";
+import { changePagination, changeSearch, filterCategory } from "../../redux/slice/sliceProducts";
+import { fetchProducts } from "../../redux/action/productAction";
+
 
 
 
@@ -18,19 +19,20 @@ const Products = () => {
     (state) => state.authReducerProducts.pagination
   );
   const productPagination = useSelector((state) => state.authReducerProducts.pagination);
+  const search = useSelector((state) => state.authReducerProducts.search);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(
       fetchProducts({
         page: `${pagination.page}`,
         limit: `${pagination.limit}`,
         category: `${pagination.category}`,
+        textSearch:search,
       })
     );
     setLoading(false);
-  }, [pagination]);
+  }, [pagination,search]);
 
   const Loading = () => {
     return (

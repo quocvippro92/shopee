@@ -3,6 +3,26 @@
   list-style: none;
 }
 /* Navber */
+a.btn.btn-outline-dark.login {
+  position: relative;
+}
+.login:hover>a.btn.btn-outline-dark.log_out{
+  display: block;
+  border-radius: 0 0 5px 5px;
+}
+a.btn.btn-outline-dark.log_out {
+  position: absolute;
+  top: 35px;
+  left: 0px;
+  right: 0px;
+  z-index: 10;
+  display: none;
+  border-radius: none;
+}
+a.btn.btn-outline-dark.log_out:hover{
+  background-color: #313130;
+  color: aliceblue;
+}
 .navbar-nav a{
   font-size: 18px;
 }
@@ -17,6 +37,49 @@ p.erro {
 .product_item{
   background-color: #ccc;
 }
+input.inputSearch.form-control {
+  margin-left: 30px;
+}
+.navSearch{
+  color:var(--color-white);
+  padding-right: 20px;
+  display: flex;
+  justify-content: center;
+
+  &:hover .iconSearch{
+      color: black;
+  }
+   
+  .iconSearch{
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      transform: translateX(24px) translateY(13px);
+      color: #bbb;
+  }
+
+  input {
+      font-size: 14px;
+      border: 1px solid #fff;
+      color: black;
+      outline: none;
+      width: 0;
+      padding: 10px;
+      cursor: pointer;
+      opacity: 0;
+      background:#ccc;
+      transition: width 0.5s;
+
+      &:focus{
+          padding-left: 26px;
+          width: 300px;
+          cursor: text;
+          opacity: 1;
+          border-radius: 4px;
+      }
+  }
+}
+
 .card-header h1{
   text-align: justify;
 }
@@ -172,9 +235,9 @@ i.fa.fa-instagram {
 }
 
 /* alert----- */
-div#root {
+/* div#root {
   position: relative;
 }
 .hero {
   position: relative;
-}
+} */

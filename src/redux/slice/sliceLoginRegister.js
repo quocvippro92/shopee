@@ -1,14 +1,13 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { toast, ToastContainer } from "react-toastify";
-import { authApi } from "../../api/auth.api";
+import { createSlice } from "@reduxjs/toolkit";
+import LocalStorge from "../../localstroge/Localstroge";
 import { fetchRegister, login } from "../action/auth.action";
 
 //tạo redux thuk để lấy data về
 
 
-
+const { get, set } = LocalStorge("user",null);
 const authInitalState = {
-  user: null,
+  user: get(),
   loadingRegister: false,
   loadingLogin: false,
 };
@@ -16,6 +15,15 @@ const authInitalState = {
 const todoSlice = createSlice({
   name: "auth",
   initialState: authInitalState,
+  reducers:{
+    logOutUser: (state, action) => {
+      const user = action.payload
+      if(user.id === state.user.id){
+        state.user = null
+      }
+      set(state.user)
+    }
+  },
   extraReducers: (builder) => {
     //peding là đang xử lý
     builder.addCase(fetchRegister.pending, (state, action) => {
@@ -39,10 +47,11 @@ const todoSlice = createSlice({
     //fulfilled là thành công
     builder.addCase(login.fulfilled, (state, action) => {
       state.loadingLogin = false;
-      if (state.loadingLogin === false) {
+      if (state.loadingLogin === false){
         alert("dang nhap thanh cong")
       }
       state.user = action.payload;
+      set(state.user)
     });
     //rejected là thông báo thất bại
     builder.addCase(login.rejected, (state, action) => {
@@ -51,4 +60,5 @@ const todoSlice = createSlice({
     });
   },
 });
+export const {logOutUser} = todoSlice.actions;
 export const authReducer = todoSlice.reducer;

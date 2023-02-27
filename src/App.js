@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import Home from "./component/Home";
 import { Routes, Route } from "react-router-dom";
 import Web from "./component/Web";
@@ -19,9 +19,9 @@ function App() {
           <Route path={ROUTER.home} element={<Home />} />
           <Route exact path={ROUTER.products} element={<Products />} />
           <Route exact path={ROUTER.products_id} element={<Product />} />
-          <Route exact path={ROUTER.cart} element={<BuyCart />} />
+          <Route exact path={ROUTER.cart} element={login === null ? <Login/>:<BuyCart />} />
           <Route exact path={ROUTER.register} element={<Register />} />
-          <Route exact path={ROUTER.login} element={login ===null ? <Login /> : <Home/> } />
+          <Route exact path={ROUTER.login} element={login === null ? <Login /> : <Home/> } />
         </Route>
       </Routes>
       

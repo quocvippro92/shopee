@@ -5,23 +5,36 @@ import { NavLink } from "react-router-dom";
 import "react-loading-skeleton/dist/skeleton.css";
 import Skeleton from "react-loading-skeleton";
 import { useDispatch, useSelector } from "react-redux";
-import { AddCart } from "../../redux/slice/sliceProduct";
 import { fetchProduct } from "../../redux/action/productAction";
-
-
+import { createCart } from "../../redux/action/cartAction";
 
 const Product = () => {
-  const product = useSelector(state=>state.authReducerProduct.product)
+  const product = useSelector((state) => state.authReducerProduct.product);
+  const user = useSelector((state) => state.authReducer.user);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
   const dispatch = useDispatch();
   useEffect(() => {
-      dispatch(fetchProduct(id))
-      setLoading(false);
-  }, []);
-  
+    dispatch(fetchProduct(id));
+    setLoading(false);
+  },[]);
+
   const handleAddCart = (product) => {
-    dispatch(AddCart(product));
+    if (user !== null) {
+      dispatch(
+        createCart({
+          product_id: product.id,
+          customer_id: user.id,
+          price: product.price,
+          quantity: product.quantity,
+          category: product.category,
+          title: product.title,
+          image: product.image,
+        })
+      );
+    } else {
+      alert("vui lòng đăng nhập");
+    }
   };
   const Loading = () => {
     return (
@@ -63,12 +76,13 @@ const Product = () => {
           </p>
           <h3 className="display-6 fw-bold my-4">${product.price}</h3>
           <p className="lead">{product.description}</p>
-          <button
+          <NavLink
+            to={user === null ? "/login" : ``}
             className="btn btn-outline-dark px-4 py-2"
             onClick={() => handleAddCart(product)}
           >
             Add to Cart
-          </button>
+          </NavLink>
           <NavLink to="/cart" className="btn btn-dark ms-2 px-3 py-2">
             Go to Cart
           </NavLink>
@@ -81,7 +95,6 @@ const Product = () => {
       <div className="container py-5">
         <div className="row py-4">
           {loading ? <Loading /> : <ShowProduct />}
-          
         </div>
       </div>
     </div>

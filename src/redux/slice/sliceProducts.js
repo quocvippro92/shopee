@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchProducts } from "../action/productData";
+import { fetchProducts } from "../action/productAction";
+
 
 const authInitalState = {
   loadingProduct: false,
   loadingProductCategory: false,
   pagination: {
     page: 1,
-    limit: 10,
+    limit: 8,
     total: 0,
     category: "",
   },
+  search:"",
   products: [],
 };
 
@@ -24,6 +26,10 @@ const todoSliceProducts = createSlice({
       state.pagination.page = action.payload.page;
       state.pagination.limit = action.payload.limit;
     },
+    changeSearch:(state,action)=>{
+      console.log(action.payload)
+      state.search = action.payload
+    }
   },
 
   extraReducers: (builder) => {
@@ -43,5 +49,5 @@ const todoSliceProducts = createSlice({
     });
   },
 });
-export const { filterCategory, changePagination } = todoSliceProducts.actions;
+export const { filterCategory, changePagination,changeSearch } = todoSliceProducts.actions;
 export const authReducerProducts = todoSliceProducts.reducer;

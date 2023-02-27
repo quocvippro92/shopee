@@ -1,15 +1,17 @@
 
 import {configureStore} from "@reduxjs/toolkit"
 import { authReducer } from "../slice/sliceLoginRegister"
-import { authReducerProduct } from "../slice/sliceProduct"
+import { authReducerCart } from "../slice/cartSlice"
 import {  authReducerProducts } from "../slice/sliceProducts"
+import { authReducerProduct } from "../slice/sliceProduct"
 
 
 const rootReducer = {
    
     authReducer:authReducer,
     authReducerProducts:authReducerProducts,
-    authReducerProduct:authReducerProduct,
+    authReducerCart:authReducerCart,
+    authReducerProduct:authReducerProduct
     // authProduct:authProduct
 }
 export const store = configureStore({

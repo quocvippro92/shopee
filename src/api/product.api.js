@@ -8,7 +8,7 @@ const filter =
 }
 
 export const productApi = {
-  getProductList: (page = 1, limit = 10, category, textSearch) => {
+  getProductList: (page = 1, limit = 8, category, textSearch) => {
     const paginationString = `_page=${page}&_limit=${limit}`;
 
     // const filterObject = {};
