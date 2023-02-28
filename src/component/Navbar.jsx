@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { logOutUser } from "../redux/slice/sliceLoginRegister";
 import { changeSearch } from "../redux/slice/sliceProducts";
+import { Button, Dropdown } from "antd";
 
 const NavBar = () => {
+  
   const [isMobile, setIsMobile] = useState(false);
   const state = useSelector((state) => state.authReducerCart.cartList);
   const login = useSelector((state) => state.authReducer.user);
@@ -14,6 +16,16 @@ const NavBar = () => {
     (total, currentValue) => total + currentValue.quantity,
     0
   );
+  const items = [
+    {
+      key: "1",
+      label: <NavLink to="profile/address">Sổ địa chỉ</NavLink>,
+    },
+    {
+      key: "2",
+      label: <div onClick={() => handleLogOut()}>Đăng xuất</div>,
+    },
+  ];
   const handleLogOut = () => {
     dispatch(logOutUser(login));
   };
@@ -73,27 +85,32 @@ const NavBar = () => {
               <li className="nav-item">
                 <div className="navSearch">
                   <i className="fa fa-search iconSearch" aria-hidden="true"></i>
-                  <input type="text" placeholder="Search..."  onChange={handleSearch}/>
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    onChange={handleSearch}
+                  />
                 </div>
               </li>
             </ul>
             <div className="buttons">
               {login !== null ? (
                 <>
-                  <NavLink
-                    className="btn btn-outline-dark login "
-                    onClick={() => setIsMobile(true)}
+            
+                  <Dropdown
+                    menu={{
+                      items,
+                    }}
+                    placement="bottomLeft"
+                    arrow
                   >
-                    <i className="fa fa-user-plus me-1"></i>
-                    {login.username}
-                    <NavLink
-                      className="btn btn-outline-dark log_out "
-                      onClick={() => handleLogOut()}
-                    >
-                      <i class="fa fa-chevron-down" aria-hidden="true"></i>Đăng
-                      Xuất
-                    </NavLink>
-                  </NavLink>
+                    <Button>
+                      {" "}
+                      <i className="fa fa-user-plus me-1"></i>
+                      {login.username}
+                    </Button>
+                  </Dropdown>
+                  
                 </>
               ) : (
                 <>

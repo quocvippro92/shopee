@@ -17,9 +17,19 @@ const Product = () => {
   useEffect(() => {
     dispatch(fetchProduct(id));
     setLoading(false);
-  },[]);
+  }, []);
 
+  const [size, setSize] = useState("");
+  const [color,setColor] = useState("")
+  const handleClickSize = (e) => {
+    const value = e.target.value;
+    setSize(value);
+  };
+  const handleColor =(value)=>{
+    console.log(value.target.value);
+  }
   const handleAddCart = (product) => {
+    console.log(product.size.value);
     if (user !== null) {
       dispatch(
         createCart({
@@ -30,6 +40,7 @@ const Product = () => {
           category: product.category,
           title: product.title,
           image: product.image,
+          size: size,
         })
       );
     } else {
@@ -74,6 +85,35 @@ const Product = () => {
             Rating{product.rating && product.rating.rate}
             <i className="fa fa-star"></i>
           </p>
+          <div>
+            <select name="size" onChange={(value) => handleClickSize(value)}>
+              <option>Size</option>
+              <option value="X">X</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="XS">XS</option>
+            </select>
+          </div>
+          <div >
+            <div className="color-item">màu sắc:</div>
+            <div className="color">
+              <div className="colorProduct " onClick={(value)=>handleColor(value)} >
+                <label>{ product.mau && product.mau.xanh}</label>
+                <img className="selectColor" src="/assets/anh2.jpg" alt="Background"/>
+              </div>
+              <div className="colorProduct">
+                <div>nâu</div>
+                <img className="selectColor" src="/assets/anh4.jpg" alt="Background"/>
+              </div>
+              <div className="colorProduct" >
+                <div>kem</div>
+                <img className="selectColor" src="/assets/anh3.jpg" alt="Background"/>
+              </div>
+              
+              
+            </div>
+          </div>
+
           <h3 className="display-6 fw-bold my-4">${product.price}</h3>
           <p className="lead">{product.description}</p>
           <NavLink

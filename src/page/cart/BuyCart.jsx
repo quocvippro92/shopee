@@ -25,10 +25,10 @@ const BuyCart = () => {
       <>
         <div className="container " key={cart.id}>
           <div className="row py-4">
-            <div className="col-md-3 buyProduct_item">{index + 1}</div>
             <div className="col-md-3 buyProduct_item">
               <img src={cart.image} alt={cart.title} height={50} width={50} />
             </div>
+            <div className="col-md-3 buyProduct_item">{cart.size }</div>
             <div className="col-md-3 buyProduct_item">{cart.quantity}</div>
             <div className="col-md-3 buyProduct_item">
               {cart.quantity * cart.price}$
@@ -107,8 +107,8 @@ const BuyCart = () => {
             Sản phẩm bạn đã chọn
           </div>
           <div className="row py-4 buyProduct">
-            <div className="col-md-3 buyProduct_item">STT</div>
             <div className="col-md-3 buyProduct_item">IMAGE</div>
+            <div className="col-md-3 buyProduct_item">SIZE</div>
             <div className="col-md-3 buyProduct_item">QUANTITY</div>
             <div className="col-md-3 buyProduct_item  ">TOTAL</div>
           </div>

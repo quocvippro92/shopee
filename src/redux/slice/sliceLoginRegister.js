@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import LocalStorge from "../../localstroge/Localstroge";
-import { fetchRegister, login } from "../action/auth.action";
+import { fetchRegister, login } from "../action/actionLoginRegister";
 
 //tạo redux thuk để lấy data về
 

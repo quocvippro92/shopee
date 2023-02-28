@@ -4,6 +4,7 @@ import { authReducer } from "../slice/sliceLoginRegister"
 import { authReducerCart } from "../slice/cartSlice"
 import {  authReducerProducts } from "../slice/sliceProducts"
 import { authReducerProduct } from "../slice/sliceProduct"
+import { authReducerAddress } from "../slice/sliceProfileAddress"
 
 
 const rootReducer = {
@@ -11,7 +12,8 @@ const rootReducer = {
     authReducer:authReducer,
     authReducerProducts:authReducerProducts,
     authReducerCart:authReducerCart,
-    authReducerProduct:authReducerProduct
+    authReducerProduct:authReducerProduct,
+    authReducerAddress:authReducerAddress,
     // authProduct:authProduct
 }
 export const store = configureStore({

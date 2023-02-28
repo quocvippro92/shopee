@@ -5,5 +5,6 @@ export const ROUTER = {
     products_id:"/product/:id",
     register:"/register",
     login:"/login",
-    cart:"/cart"
+    cart:"/cart",
+    address:"profile/address"
 }

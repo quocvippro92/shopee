@@ -11,7 +11,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/action/auth.action";
+import { login } from "../../redux/action/actionLoginRegister";
 
 
 

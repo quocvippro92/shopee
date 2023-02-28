@@ -13,6 +13,7 @@ export const createCart = createAsyncThunk(
     } else {
       const cart = list.data.filter(item => item.product_id === data.product_id)[0];
       cart.quantity = cart.quantity + 1;
+      cart.size = cart.size + "/" + data.size
       await cartApi.updateCart(cart.id,cart);
     }
     return response.data;
@@ -41,8 +42,8 @@ export const updateCart = createAsyncThunk(
 export const deleteCart = createAsyncThunk(
   "cart/deleteCart",
   async (payload, thunkAPI) => {
-    // const {cartId ,cart} = payload
-    const response = await cartApi.deleteCart(payload);
+    const cartItemId = payload;
+    const response = await cartApi.deleteCart(cartItemId);
      //await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
     return response.data;
   }

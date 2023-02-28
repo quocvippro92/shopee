@@ -79,7 +79,16 @@ input.inputSearch.form-control {
       }
   }
 }
-
+button.ant-btn.css-dev-only-do-not-override-1km3mtt.ant-btn-default.ant-dropdown-trigger {
+  height: auto;
+}
+.css-dev-only-do-not-override-1km3mtt.ant-btn-default:not(:disabled):hover {
+  color: white;
+  background: black;
+}
+.buttons{
+  display: flex;
+}
 .card-header h1{
   text-align: justify;
 }
@@ -117,6 +126,32 @@ button.btn.btn-outline-dark.px-4.py-2.buyProduct {
   display: block;
   margin: 10px auto 100px;
   align-items: center;
+}
+.color-item {
+  color: red;
+  font-size: 20px;
+  padding: 20px 0 0px;
+  font-weight: 700;
+}
+.color {
+  display: flex;
+  width: 100%;
+  cursor: pointer;
+}
+.colorProduct:hover{
+  background-color: #ccc;
+  color: #fff;
+}
+.colorProduct {
+  text-align: center;
+  width: 80px;
+  padding-bottom: 10px;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+img.selectColor {
+  width: 50px;
+  border-radius: 30px;
 }
 .btn-delete:hover{
   background-color: red !important;

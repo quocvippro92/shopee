@@ -6,7 +6,7 @@ const cartInitialState = {
     loadingCreateCart:false,
     loadingGetCart: false,
     loadingUpdateCartItem: false,
-    loadingDeleteCartItem: false
+    loadingDeleteCartItem: false,
 };
 
 const todoSliceProduct = createSlice({

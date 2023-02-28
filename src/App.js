@@ -9,7 +9,7 @@ import BuyCart from "./page/cart/BuyCart";
 import { ROUTER } from "./const";
 import Products from "./page/product/Products";
 import Product from "./page/product/Product";
-
+import Address from "./page/profileAddress/Address";
 function App() {
   const login = useSelector(state=>state.authReducer.user)
   return (
@@ -22,6 +22,7 @@ function App() {
           <Route exact path={ROUTER.cart} element={login === null ? <Login/>:<BuyCart />} />
           <Route exact path={ROUTER.register} element={<Register />} />
           <Route exact path={ROUTER.login} element={login === null ? <Login /> : <Home/> } />
+          <Route exact path={ROUTER.address} element={<Address/>} />
         </Route>
       </Routes>
       
