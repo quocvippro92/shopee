@@ -19,17 +19,17 @@ const Product = () => {
     setLoading(false);
   }, []);
 
-  const [size, setSize] = useState("");
-  const [color,setColor] = useState("")
+  const [size, setSize] = useState("size");
+  const [color, setColor] = useState("trắng");
   const handleClickSize = (e) => {
     const value = e.target.value;
     setSize(value);
   };
-  const handleColor =(value)=>{
-    console.log(value.target.value);
-  }
+  const handleColor = (value) => {
+    // console.log(value);
+    setColor(value);
+  };
   const handleAddCart = (product) => {
-    console.log(product.size.value);
     if (user !== null) {
       dispatch(
         createCart({
@@ -41,6 +41,7 @@ const Product = () => {
           title: product.title,
           image: product.image,
           size: size,
+          color: color,
         })
       );
     } else {
@@ -86,31 +87,60 @@ const Product = () => {
             <i className="fa fa-star"></i>
           </p>
           <div>
-            <select name="size" onChange={(value) => handleClickSize(value)}>
-              <option>Size</option>
+            <select
+              name="size"
+              value={size}
+              onChange={(value) => handleClickSize(value)}
+            >
+              <option value="">Size</option>
               <option value="X">X</option>
               <option value="L">L</option>
               <option value="XL">XL</option>
               <option value="XS">XS</option>
             </select>
           </div>
-          <div >
+          <div>
             <div className="color-item">màu sắc:</div>
             <div className="color">
-              <div className="colorProduct " onClick={(value)=>handleColor(value)} >
-                <label>{ product.mau && product.mau.xanh}</label>
-                <img className="selectColor" src="/assets/anh2.jpg" alt="Background"/>
-              </div>
-              <div className="colorProduct">
-                <div>nâu</div>
-                <img className="selectColor" src="/assets/anh4.jpg" alt="Background"/>
-              </div>
-              <div className="colorProduct" >
-                <div>kem</div>
-                <img className="selectColor" src="/assets/anh3.jpg" alt="Background"/>
-              </div>
-              
-              
+              <button
+                className="colorProduct"
+                onClick={() => handleColor(product.mau.xanh)}
+              >
+                {product.mau && product.mau.xanh}
+                <div>
+                  <img
+                    src={product.mau && product.mau.imgXanh}
+                    alt="ádasd"
+                    className="selectColor"
+                  />
+                </div>
+              </button>
+              <button
+                className="colorProduct"
+                onClick={() => handleColor(product.mau.nau)}
+              >
+                {product.mau && product.mau.nau}
+                <div>
+                  <img
+                    src={product.mau && product.mau.imgNau}
+                    alt="ádasd"
+                    className="selectColor"
+                  />
+                </div>
+              </button>
+              <button
+                className="colorProduct"
+                onClick={() => handleColor(product.mau.trang)}
+              >
+                {product.mau && product.mau.trang}
+                <div>
+                  <img
+                    src={product.mau && product.mau.imgTrang}
+                    alt="ádasd"
+                    className="selectColor"
+                  />
+                </div>
+              </button>
             </div>
           </div>
 

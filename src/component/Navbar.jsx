@@ -5,9 +5,7 @@ import { useState } from "react";
 import { logOutUser } from "../redux/slice/sliceLoginRegister";
 import { changeSearch } from "../redux/slice/sliceProducts";
 import { Button, Dropdown } from "antd";
-
 const NavBar = () => {
-  
   const [isMobile, setIsMobile] = useState(false);
   const state = useSelector((state) => state.authReducerCart.cartList);
   const login = useSelector((state) => state.authReducer.user);
@@ -16,6 +14,7 @@ const NavBar = () => {
     (total, currentValue) => total + currentValue.quantity,
     0
   );
+
   const items = [
     {
       key: "1",
@@ -59,7 +58,22 @@ const NavBar = () => {
           >
             <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <NavLink className="nav-link active" aria-current="page" to="/">
+                <NavLink
+                  onClick={() => setIsMobile(true)}
+                  className="nav-link active"
+                  aria-current="page"
+                  to="/admin"
+                >
+                  <strong>Admin</strong>
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  onClick={() => setIsMobile(true)}
+                  className="nav-link active"
+                  aria-current="page"
+                  to="/"
+                >
                   Home
                 </NavLink>
               </li>
@@ -96,7 +110,6 @@ const NavBar = () => {
             <div className="buttons">
               {login !== null ? (
                 <>
-            
                   <Dropdown
                     menu={{
                       items,
@@ -110,7 +123,6 @@ const NavBar = () => {
                       {login.username}
                     </Button>
                   </Dropdown>
-                  
                 </>
               ) : (
                 <>

@@ -14,6 +14,8 @@ export const createCart = createAsyncThunk(
       const cart = list.data.filter(item => item.product_id === data.product_id)[0];
       cart.quantity = cart.quantity + 1;
       cart.size = cart.size + "/" + data.size
+      cart.color = cart.color + "/" + data.color
+    
       await cartApi.updateCart(cart.id,cart);
     }
     return response.data;

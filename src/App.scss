@@ -111,7 +111,7 @@ button.ant-btn.css-dev-only-do-not-override-1km3mtt.ant-btn-default.ant-dropdown
   text-align: center;
 }
 .col-md-12.buyProduct_item,
-.col-md-3.buyProduct_item {
+.col-md-2.buyProduct_item {
   text-align: center;
   font-weight: 700;
 }
@@ -138,9 +138,9 @@ button.btn.btn-outline-dark.px-4.py-2.buyProduct {
   width: 100%;
   cursor: pointer;
 }
-.colorProduct:hover{
-  background-color: #ccc;
-  color: #fff;
+
+.colorProduct:focus{
+  background: repeating-linear-gradient(45deg, black, transparent 100px);
 }
 .colorProduct {
   text-align: center;

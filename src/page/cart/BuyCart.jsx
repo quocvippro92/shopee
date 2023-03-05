@@ -7,14 +7,14 @@ import { DelCart, increase } from "../../redux/slice/sliceProduct";
 const BuyCart = () => {
   const account = useSelector((state) => state.authReducer.user);
   const cartProduct = useSelector((state) => state.authReducerCart.cartList);
-  const handleBuyProduct = () => {
-    {
-      account !== null
-        ? alert("mua thanh cong")
-        : alert("vui lòng qua trang login để đăng nhập :))");
-    }
+  // const handleBuyProduct = () => {
+  //   {
+  //     account !== null
+  //       ? alert("mua thanh cong")
+  //       : alert("vui lòng qua trang login để đăng nhập :))");
+  //   }
     
-  };
+  // };
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCustomerCart(account.id));
@@ -25,12 +25,14 @@ const BuyCart = () => {
       <>
         <div className="container " key={cart.id}>
           <div className="row py-4">
-            <div className="col-md-3 buyProduct_item">
+          <div className="col-md-2 buyProduct_item">{index + 1 }</div>
+            <div className="col-md-2 buyProduct_item">
               <img src={cart.image} alt={cart.title} height={50} width={50} />
             </div>
-            <div className="col-md-3 buyProduct_item">{cart.size }</div>
-            <div className="col-md-3 buyProduct_item">{cart.quantity}</div>
-            <div className="col-md-3 buyProduct_item">
+            <div className="col-md-2 buyProduct_item">{cart.size }</div>
+            <div className="col-md-2 buyProduct_item">{cart.quantity}</div>
+            <div className="col-md-2 buyProduct_item">{cart.color}</div>
+            <div className="col-md-2 buyProduct_item">
               {cart.quantity * cart.price}$
             </div>
           </div>
@@ -107,20 +109,22 @@ const BuyCart = () => {
             Sản phẩm bạn đã chọn
           </div>
           <div className="row py-4 buyProduct">
-            <div className="col-md-3 buyProduct_item">IMAGE</div>
-            <div className="col-md-3 buyProduct_item">SIZE</div>
-            <div className="col-md-3 buyProduct_item">QUANTITY</div>
-            <div className="col-md-3 buyProduct_item  ">TOTAL</div>
+          <div className="col-md-2 buyProduct_item">STT</div>
+            <div className="col-md-2 buyProduct_item">IMAGE</div>
+            <div className="col-md-2 buyProduct_item">SIZE</div>
+            <div className="col-md-2 buyProduct_item">QUANTITY</div>
+            <div className="col-md-2 buyProduct_item">COLOR</div>
+            <div className="col-md-2 buyProduct_item  ">TOTAL</div>
           </div>
           {BuyProduct()}
           <div className="row py-4 buyProduct">
             <div className="col-md-12 buyProduct_item">INTO MONEY = {totalPrice}$</div>
           </div>
           <div className=" py-4 buyProduct">
-            <NavLink to="/login">
+            <NavLink to="/delivery">
               <button
                 className="btn btn-outline-dark py-2 buyProduct"
-                onClick={() => handleBuyProduct()}
+                // onClick={() => handleBuyProduct()}
               >
                 Buy Product
               </button>

@@ -13,6 +13,7 @@ import { fetchProducts } from "../../redux/action/productAction";
 
 
 
+
 const Products = () => {
   const products = useSelector((state) => state.authReducerProducts.products);
   const pagination = useSelector(
@@ -57,6 +58,7 @@ const Products = () => {
     dispatch(filterCategory(cat));
   };
   const ShowProducts = () => {
+    
     return (
       <>
         <div className="buttons d-flex justify-content-center mb-5 pb-5">
