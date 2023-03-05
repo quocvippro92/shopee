@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   MDBContainer,
   MDBCard,
@@ -9,22 +9,29 @@ import {
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { profileAddress } from "../../redux/action/profileAddressAction";
+import {
+  getCustomerAddress,
+  profileAddress,
+} from "../../redux/action/profileAddressAction";
 import { NavLink } from "react-router-dom";
 
 const Address = () => {
   const userId = useSelector((state) => state.authReducer.user);
+  const address = useSelector((state) => state.authReducerAddress.address);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCustomerAddress(userId.id));
+  }, []);
   const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
   const formik = useFormik({
     initialValues: {
       userId: `${userId !== null ? userId.id : ""}`,
-      name: "",
-      phone: "",
-      address_line: "",
-      province_city: "",
-      district: "",
-      sub_district: "",
+      name: `${address.id ? address.name : ""}`,
+      phone: `${address.id ? address.phone : ""}`,
+      address_line: `${address.id ? address.address_line : ""}`,
+      province_city: `${address.id ? address.province_city : ""}`,
+      district: `${address.id ? address.district : ""}`,
+      sub_district: `${address.id ? address.sub_district : ""}`,
     },
     validationSchema: yup.object().shape({
       userId: yup.number().required("required to enter number"),
@@ -44,7 +51,6 @@ const Address = () => {
     }),
     onSubmit: (values) => {
       dispatch(profileAddress(values));
-      console.log(values);
     },
   });
   return (
@@ -228,11 +234,11 @@ const Address = () => {
                     >
                       Sign in
                     </button>
-                    <NavLink to={'/'} >
+                    <NavLink to={"/"}>
                       <button
                         type="submit"
                         className="btn btn-outline-dark w-25 "
-                        style={{marginLeft: '20px'}}
+                        style={{ marginLeft: "20px" }}
                       >
                         Trang Chủ
                       </button>
