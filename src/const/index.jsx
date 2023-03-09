@@ -9,4 +9,8 @@ export const ROUTER = {
   address: "profile/address",
   delivery: "/delivery",
   admin: "/admin",
+  yourOrder: "/yourOrder",
+  adminUsers: "/admin/users",
+  adminProduct: "/admin/product",
+  adminOrders: "/admin/orders",
 };

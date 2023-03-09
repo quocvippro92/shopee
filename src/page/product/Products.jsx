@@ -6,20 +6,21 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Pagination } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 
-import { changePagination, changeSearch, filterCategory } from "../../redux/slice/sliceProducts";
+import {
+  changePagination,
+  changeSearch,
+  filterCategory,
+} from "../../redux/slice/sliceProducts";
 import { fetchProducts } from "../../redux/action/productAction";
-
-
-
-
-
 
 const Products = () => {
   const products = useSelector((state) => state.authReducerProducts.products);
   const pagination = useSelector(
     (state) => state.authReducerProducts.pagination
   );
-  const productPagination = useSelector((state) => state.authReducerProducts.pagination);
+  const productPagination = useSelector(
+    (state) => state.authReducerProducts.pagination
+  );
   const search = useSelector((state) => state.authReducerProducts.search);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -29,17 +30,17 @@ const Products = () => {
         page: `${pagination.page}`,
         limit: `${pagination.limit}`,
         category: `${pagination.category}`,
-        textSearch:search,
+        textSearch: search,
       })
     );
     setLoading(false);
-  }, [pagination,search]);
+  }, [pagination, search]);
 
   const Loading = () => {
     return (
       <>
         <div className="col-md-3">
-          <Skeleton height={350}/>
+          <Skeleton height={350} />
         </div>
         <div className="col-md-3">
           <Skeleton height={350} />
@@ -58,7 +59,6 @@ const Products = () => {
     dispatch(filterCategory(cat));
   };
   const ShowProducts = () => {
-    
     return (
       <>
         <div className="buttons d-flex justify-content-center mb-5 pb-5">
@@ -103,9 +103,9 @@ const Products = () => {
             Electronic
           </button>
         </div>
-        {products.map((product) => {
+        {products.map((product, index) => {
           return (
-            <div className="col-md-3 mb-4">
+            <div className="col-md-3 mb-4" key={index}>
               <div className="card h-100 text-center p-4 ">
                 <img
                   src={product.image}

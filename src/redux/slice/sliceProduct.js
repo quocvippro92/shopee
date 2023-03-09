@@ -1,15 +1,13 @@
-import {  createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { notification } from "antd";
 import LocalStorge from "../../localstroge/Localstroge";
 import { fetchProduct } from "../action/productAction";
-
-
-
 
 const authInitalState = {
   loadingProduct: false,
   product: [],
 };
-  
+
 const todoSliceProduct = createSlice({
   name: "cart",
   initialState: authInitalState,
@@ -19,13 +17,13 @@ const todoSliceProduct = createSlice({
   //     const index = state.productByCategory.findIndex(
   //       (index) => index.id === product.id
   //     );
-      
+
   //     if (index === -1) {
   //       state.productByCategory = [
   //         { ...product, count: 1 ,total:product.price,},
   //         ...state.productByCategory,
   //       ];
-        
+
   //     } else {
   //       state.productByCategory[index].count++;
   //       state.productByCategory[index].total = state.productByCategory[index].count * state.productByCategory[index].price;

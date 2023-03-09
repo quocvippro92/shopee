@@ -5,16 +5,22 @@ import { useState } from "react";
 import { logOutUser } from "../redux/slice/sliceLoginRegister";
 import { changeSearch } from "../redux/slice/sliceProducts";
 import { Button, Dropdown } from "antd";
+import { getCustomerCart } from "../redux/action/cartAction";
 const NavBar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const state = useSelector((state) => state.authReducerCart.cartList);
   const login = useSelector((state) => state.authReducer.user);
   const dispatch = useDispatch();
+
   const sumCart = state.reduce(
     (total, currentValue) => total + currentValue.quantity,
     0
   );
 
+  useEffect(
+    () => (login === null ? "" : dispatch(getCustomerCart(login.id))),
+    []
+  );
   const items = [
     {
       key: "1",
@@ -23,6 +29,10 @@ const NavBar = () => {
     {
       key: "2",
       label: <div onClick={() => handleLogOut()}>Đăng xuất</div>,
+    },
+    {
+      key: "3",
+      label: <NavLink to="/yourOrder">Đơn hàng của bạn</NavLink>,
     },
   ];
   const handleLogOut = () => {
@@ -56,17 +66,8 @@ const NavBar = () => {
             //repontsive ismobile-----------------
             id={isMobile ? "mobile-menu" : "navbarSupportedContent"}
           >
+            {}
             <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <NavLink
-                  onClick={() => setIsMobile(true)}
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/admin"
-                >
-                  <strong>Admin</strong>
-                </NavLink>
-              </li>
               <li className="nav-item">
                 <NavLink
                   onClick={() => setIsMobile(true)}
@@ -142,12 +143,13 @@ const NavBar = () => {
                   </NavLink>
                 </>
               )}
+
               <NavLink
                 to="/cart"
                 className="btn btn-outline-dark  ms-2"
                 onClick={() => setIsMobile(true)}
               >
-                <i className="fa fa-shopping-cart me-1"></i> Cart ({" "}
+                <i className="fa fa-shopping-cart me-1"></i> Cart (
                 {login !== null ? sumCart : 0})
               </NavLink>
             </div>

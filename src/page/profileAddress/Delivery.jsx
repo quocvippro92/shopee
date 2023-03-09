@@ -78,6 +78,7 @@ const Delivery = () => {
   });
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
+
   const [wards, setWards] = useState([]);
   const [cod, setCod] = useState(0);
   const handleCheckInput = (value) => {

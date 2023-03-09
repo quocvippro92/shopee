@@ -12,6 +12,12 @@ import Product from "./page/product/Product";
 import Address from "./page/profileAddress/Address";
 import Delivery from "./page/profileAddress/Delivery";
 import Admin from "./page/Admin/Admin";
+import YourOrder from "./page/cart/YourOrder";
+import LoginAdmin from "./page/Admin/LoginAdmin";
+import PageAdmin from "./page/Admin/PageAdmin";
+import ProductAdmin from "./page/Admin/productAdmin/ProductAdmin";
+import UsersAdmin from "./page/Admin/usersAdmin/UsersAdmin";
+import Order from "./page/Admin/orderAdmin/Order";
 function App() {
   const login = useSelector((state) => state.authReducer.user);
   return (
@@ -34,8 +40,24 @@ function App() {
             path={ROUTER.delivery}
             element={login === null ? <Login /> : <Delivery />}
           />
+          <Route path={ROUTER.yourOrder} element={<YourOrder />} />
         </Route>
-        <Route path={ROUTER.admin} element={<Admin />} />
+        <Route
+          path={ROUTER.admin}
+          element={
+            login === null ? (
+              <LoginAdmin />
+            ) : login.admin === "admin" ? (
+              <PageAdmin />
+            ) : (
+              <LoginAdmin />
+            )
+          }
+        >
+          <Route path={ROUTER.adminProduct} element={<ProductAdmin />} />
+          <Route path={ROUTER.admin} element={<Order />} />
+          <Route path={ROUTER.adminUsers} element={<UsersAdmin />} />
+        </Route>
       </Routes>
     </>
   );
