@@ -10,11 +10,11 @@ export const createProductAdmin = createAsyncThunk(
     return response.data;
   }
 );
-export const getProductAdmin = createAsyncThunk(
-  "admin/getProductAdmin", //đầu tiên phải lấy tiền tố name:là 'todo' và sau đó là tên của khởi tạo
+export const getOrderAdmin = createAsyncThunk(
+  "admin/getOrderAdmin", //đầu tiên phải lấy tiền tố name:là 'todo' và sau đó là tên của khởi tạo
   async (payload, thunkAPI) => {
     const { page, limit, category, textSearch } = payload;
-    const response = await adminApi.getProductAdmin(
+    const response = await adminApi.getOrderAdmin(
       page,
       limit,
       category,
@@ -25,10 +25,10 @@ export const getProductAdmin = createAsyncThunk(
   }
 );
 
-export const updateProductAdmin = createAsyncThunk(
+export const updateOrderAdmin = createAsyncThunk(
   "admin/deleteCart",
   async (payload, thunkAPI) => {
-    const response = await adminApi.updateProductAdmin(
+    const response = await adminApi.updateOrderAdmin(
       payload.id,
       payload.objValue
     );
@@ -43,8 +43,18 @@ export const updateProductAdmin = createAsyncThunk(
   }
 );
 
+export const deleteOrderAdmin = createAsyncThunk(
+  "admin/deleteOrderAdmin",
+  async (payload, thunkAPI) => {
+    const cartItemId = payload;
+    const response = await adminApi.deleteOrderAdmin(cartItemId);
+    //await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
+    return response.data;
+  }
+);
+
 export const deleteProductAdmin = createAsyncThunk(
-  "admin/deleteCart",
+  "admin/deleteProductAdmin",
   async (payload, thunkAPI) => {
     const cartItemId = payload;
     const response = await adminApi.deleteProductAdmin(cartItemId);
