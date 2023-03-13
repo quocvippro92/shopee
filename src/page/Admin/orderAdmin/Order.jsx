@@ -3,8 +3,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deleteProductAdmin,
-  getProductAdmin,
+  deleteOrderAdmin,
+  getOrderAdmin,
+  updateOrderAdmin,
   updateProductAdmin,
 } from "../../../redux/action/actionProductAdmin";
 import { changePagination } from "../../../redux/slice/sliceProductAdmin";
@@ -39,7 +40,7 @@ const Order = () => {
 
   useEffect(() => {
     dispatch(
-      getProductAdmin({
+      getOrderAdmin({
         page: `${pagination.page}`,
         limit: `${pagination.limit}`,
         category: `${pagination.category}`,
@@ -78,9 +79,9 @@ const Order = () => {
     setTimeout(() => {
       setOpen(false);
       setConfirmLoading(false);
-      dispatch(deleteProductAdmin(id));
+      dispatch(deleteOrderAdmin(id));
       dispatch(
-        getProductAdmin({
+        getOrderAdmin({
           page: `${pagination.page}`,
           limit: `${pagination.limit}`,
           category: `${pagination.category}`,
@@ -143,9 +144,9 @@ const Order = () => {
       objValue.district = values.district;
       objValue.city = values.city;
       objValue.ward = values.ward;
-      dispatch(updateProductAdmin({ id, objValue }));
+      dispatch(updateOrderAdmin({ id, objValue }));
       dispatch(
-        getProductAdmin({
+        getOrderAdmin({
           page: `${pagination.page}`,
           limit: `${pagination.limit}`,
           category: `${pagination.category}`,

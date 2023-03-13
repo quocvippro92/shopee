@@ -2,11 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { notification } from "antd";
 import {
   createProductAdmin,
+  getOrderAdmin,
   getProductAdmin,
 } from "../action/actionProductAdmin";
 
 const slideProductAdmin = {
   listProduct: [],
+  products: [],
   loadingCreateproductAdmin: false,
   pagination: {
     page: 1,
@@ -25,7 +27,6 @@ const todoSliceProductAdmin = createSlice({
       state.pagination.category = action.payload;
     },
     changePagination: (state, action) => {
-      console.log(action.payload);
       state.pagination.page = action.payload.page;
       state.pagination.limit = action.payload.limit;
     },
@@ -59,16 +60,16 @@ const todoSliceProductAdmin = createSlice({
       });
     });
 
-    builder.addCase(getProductAdmin.pending, (state, action) => {
+    builder.addCase(getOrderAdmin.pending, (state, action) => {
       state.loadingCreateproductAdmin = true;
     });
     //fulfilled là thành công
-    builder.addCase(getProductAdmin.fulfilled, (state, action) => {
+    builder.addCase(getOrderAdmin.fulfilled, (state, action) => {
       state.loadingCreateproductAdmin = false;
       state.listProduct = action.payload.product;
       state.pagination.total = action.payload.total;
     });
-    builder.addCase(getProductAdmin.rejected, (state, action) => {
+    builder.addCase(getOrderAdmin.rejected, (state, action) => {
       state.loadingCreateproductAdmin = false;
     });
   },

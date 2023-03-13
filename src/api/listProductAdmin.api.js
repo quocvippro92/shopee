@@ -2,9 +2,9 @@ import { API, BASE_URL } from "./constants.api";
 
 export const adminApi = {
   createProductAdmin: (data) => API.post(`${BASE_URL}/listProductUser`, data),
-  updateProductAdmin: (cardId, data) =>
+  updateOrderAdmin: (cardId, data) =>
     API.patch(`${BASE_URL}/listProductUser`, cardId, data),
-  getProductAdmin: (page = 1, limit = 5, category, textSearch) => {
+  getOrderAdmin: (page = 1, limit = 5, category, textSearch) => {
     const paginationString = `_page=${page}&_limit=${limit}`;
 
     // const filterObject = {};
@@ -25,5 +25,7 @@ export const adminApi = {
     ].join("&");
     return API.get(`${BASE_URL}/listProductUser?${queryString}`);
   },
-  deleteProductAdmin: (id) => API.delete(`${BASE_URL}/listProductUser`, id),
+
+  deleteProductAdmin: (id) => API.delete(`${BASE_URL}/product`, id),
+  deleteOrderAdmin: (id) => API.delete(`${BASE_URL}/listProductUser`, id),
 };

@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { notification } from "antd";
-import LocalStorge from "../../localstroge/Localstroge";
+
 import { fetchProduct } from "../action/productAction";
 
 const authInitalState = {

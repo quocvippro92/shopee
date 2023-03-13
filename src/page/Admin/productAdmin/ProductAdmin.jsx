@@ -2,17 +2,15 @@ import { Pagination } from "antd";
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteProductAdmin,
-  getProductAdmin,
-  updateProductAdmin,
-} from "../../../redux/action/actionProductAdmin";
-import { changePagination } from "../../../redux/slice/sliceProductAdmin";
+import { deleteProductAdmin } from "../../../redux/action/actionProductAdmin";
+
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { fetchProducts } from "../../../redux/action/productAction";
 import { Button, Modal } from "antd";
 import "./productAdmin.scss";
+import { changePagination } from "../../../redux/slice/sliceProducts";
+
 const ProductAdmin = () => {
   const [onClick, setOnClick] = useState(false);
   const [onClickEdit, setOnClickEdit] = useState(false);
@@ -33,9 +31,8 @@ const ProductAdmin = () => {
   );
 
   const pagination = useSelector(
-    (state) => state.authReducerListProductAdmin.pagination
+    (state) => state.authReducerProducts.pagination
   );
-
   useEffect(() => {
     dispatch(
       fetchProducts({
@@ -45,7 +42,7 @@ const ProductAdmin = () => {
         textSearch: search,
       })
     );
-  }, [pagination, search]);
+  }, [pagination]);
 
   const handleClick = (product) => {
     setInformation(product);
@@ -62,6 +59,7 @@ const ProductAdmin = () => {
     setOpen(true);
   };
   const handleOkDelete = (id) => {
+    console.log(id);
     setModalText("chời đợi trong giây lát");
     setConfirmLoading(true);
     setTimeout(() => {
@@ -69,7 +67,7 @@ const ProductAdmin = () => {
       setConfirmLoading(false);
       dispatch(deleteProductAdmin(id));
       dispatch(
-        getProductAdmin({
+        fetchProducts({
           page: `${pagination.page}`,
           limit: `${pagination.limit}`,
           category: `${pagination.category}`,
@@ -136,7 +134,7 @@ const ProductAdmin = () => {
       objValue.district = values.district;
       objValue.city = values.city;
       objValue.ward = values.ward;
-      dispatch(updateProductAdmin({ id, objValue }));
+      // dispatch(updateProductAdmin({ id, objValue }));
     },
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
