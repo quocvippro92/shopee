@@ -1,5 +1,5 @@
-import { Pagination } from "antd";
-import React, { useEffect, useState } from "react";
+import { Pagination, Rate, Upload } from "antd";
+import React, { useEffect, useMemo, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,11 +11,20 @@ import { changePagination } from "../../../redux/slice/sliceProductAdmin";
 import "./order.scss";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import { Button, Modal } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 
 const Order = () => {
   const [onClick, setOnClick] = useState(false);
   const [onClickEdit, setOnClickEdit] = useState(false);
   const [information, setInformation] = useState([]);
+  const [valueRate, setValueRate] = useState(1);
+  const [fileList, setFileList] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
+  const [confirmLoadingCreate, setConfirmLoadingCreate] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState("bạn có chắc muốn xóa sản phẩm ?");
   const dispatch = useDispatch();
   const listProduct = useSelector(
     (state) => state.authReducerListProductAdmin.listProduct
@@ -27,6 +36,7 @@ const Order = () => {
   const pagination = useSelector(
     (state) => state.authReducerListProductAdmin.pagination
   );
+
   useEffect(() => {
     dispatch(
       getProductAdmin({
@@ -38,17 +48,17 @@ const Order = () => {
     );
   }, [pagination, search]);
 
-  const handleDelete = (id) => {
-    dispatch(deleteProductAdmin(id));
-    dispatch(
-      getProductAdmin({
-        page: `${pagination.page}`,
-        limit: `${pagination.limit}`,
-        category: `${pagination.category}`,
-        textSearch: search,
-      })
-    );
-  };
+  // const handleDelete = (id) => {
+  //   dispatch(deleteProductAdmin(id));
+  //   dispatch(
+  //     getProductAdmin({
+  //       page: `${pagination.page}`,
+  //       limit: `${pagination.limit}`,
+  //       category: `${pagination.category}`,
+  //       textSearch: search,
+  //     })
+  //   );
+  // };
   const handleClick = (product) => {
     setInformation(product);
     console.log(product);
@@ -58,6 +68,45 @@ const Order = () => {
   const hanldeEdit = (product) => {
     setInformation(product);
     setOnClickEdit(!onClickEdit);
+  };
+  const showModal = () => {
+    setOpen(true);
+  };
+  const handleOk = (id) => {
+    setModalText("chời đợi trong giây lát");
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setOpen(false);
+      setConfirmLoading(false);
+      dispatch(deleteProductAdmin(id));
+      dispatch(
+        getProductAdmin({
+          page: `${pagination.page}`,
+          limit: `${pagination.limit}`,
+          category: `${pagination.category}`,
+          textSearch: search,
+        })
+      );
+    }, 2000);
+  };
+  const handleCancel = () => {
+    console.log("Clicked cancel button");
+    setOpen(false);
+  };
+  const showModalCreate = () => {
+    setOpenCreate(true);
+  };
+  const handleOkCreate = (id) => {
+    setModalText("chời đợi trong giây lát");
+    setConfirmLoadingCreate(true);
+    setTimeout(() => {
+      setOpenCreate(false);
+      setConfirmLoadingCreate(false);
+    }, 1000);
+  };
+  const handleCancelCreate = () => {
+    console.log("Clicked cancel button");
+    setOpenCreate(false);
   };
 
   const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
@@ -75,7 +124,8 @@ const Order = () => {
       firstname: yup
         .string()
         .min(5, "your name must be at least 5 characters!")
-        .max(30, "your name must be under 30 characters"),
+        .max(30, "your name must be under 30 characters")
+        .required("you have not entered firstname"),
 
       address: yup.string(),
       city: yup.string(),
@@ -87,7 +137,6 @@ const Order = () => {
     onSubmit: (values) => {
       const id = information.id;
       const objValue = { ...values };
-      console.log(objValue);
       objValue.name = values.firstname;
       objValue.phone = values.phone;
       objValue.address = values.address;
@@ -95,9 +144,87 @@ const Order = () => {
       objValue.city = values.city;
       objValue.ward = values.ward;
       dispatch(updateProductAdmin({ id, objValue }));
+      dispatch(
+        getProductAdmin({
+          page: `${pagination.page}`,
+          limit: `${pagination.limit}`,
+          category: `${pagination.category}`,
+          textSearch: search,
+        })
+      );
+      setOnClickEdit(!onClickEdit);
     },
   });
 
+  const formikCreate = useFormik({
+    initialValues: {
+      category: "",
+      description: "",
+      image: "",
+      price: "",
+      rating: "1",
+      size: "",
+      mau: "",
+      quantity: "",
+      title: "",
+    },
+    validationSchema: yup.object().shape({
+      category: yup.string().required("you have not entered category"),
+      description: yup.string().required("your must fill in this description!"),
+      image: yup
+        .mixed()
+        .required("required!")
+        .test(
+          "File_size",
+          "Too big!",
+          (value) => value && value.size < 1024 * 1024
+        )
+        .test(
+          "File_Type",
+          "Invalid!",
+          (value) => value && ["image/png", "image/jpeg"].includes(value.type)
+        ),
+      price: yup.string().required("your must fill in this section!"),
+      // rating: yup.string().required("your must fill inn this section!"),
+      size: yup.string().required("your must fill in this section!"),
+      mau: yup.string().required("your must fill in this section!"),
+      quantity: yup.string().required("your must fill in this section!"),
+      title: yup.string().required("your must fill in this section!"),
+    }),
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
+  const validateFileType = ({ type, name }, allowedTypes) => {
+    if (!allowedTypes) {
+      return true;
+    }
+
+    if (type) {
+      return allowedTypes.includes(type);
+    }
+  };
+  const uploadProps = useMemo(
+    () => ({
+      beforeUpload: (file) => {
+        const isAllowedType = validateFileType(file, "image/png");
+        if (!isAllowedType) {
+          setFileList((state) => [...state]);
+          // message.error(`${file.name} is not PNG file`);
+
+          console.log(
+            "🚀 ~ file: Order.jsx:192 ~ Order ~ file.name:",
+            file.name
+          );
+          return false;
+        }
+        setFileList((state) => [...state, file]);
+        return false;
+      },
+    }),
+    []
+  );
   return (
     <>
       <div className="container-fuild">
@@ -105,7 +232,218 @@ const Order = () => {
           <h1>Danh Sách Khách Hàng Đã Order</h1>
         </div>
       </div>
+      <Button type="primary" className="btn-gold" onClick={showModalCreate}>
+        CreateProduct
+      </Button>
 
+      <Modal
+        title="Title"
+        open={openCreate}
+        confirmLoading={confirmLoadingCreate}
+        onCancel={handleCancelCreate}
+        cancelButtonProps={{ style: { display: "none" } }}
+        okButtonProps={{ style: { display: "none" } }}
+      >
+        <form onSubmit={formikCreate.handleSubmit}>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold ">category</label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="category"
+                value={formikCreate.values.category}
+                onChange={formikCreate.handleChange}
+                placeholder="category"
+                className="form-control"
+              />
+              <div>
+                {formikCreate.errors.category &&
+                  formikCreate.touched.category && (
+                    <p className="erro">{formikCreate.errors.category}</p>
+                  )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold ">
+              description
+            </label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="description"
+                value={formikCreate.values.description}
+                onChange={formikCreate.handleChange}
+                className="form-control"
+                placeholder="description"
+                id="inputEmail3"
+              />
+              <div>
+                {formikCreate.errors.description &&
+                  formikCreate.touched.description && (
+                    <p className="erro">{formikCreate.errors.description}</p>
+                  )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold ">Image</label>
+            <div className="col-sm-8">
+              {/* <input
+                type="number"
+                name="image"
+                value={formikCreate.values.image}
+                placeholder="image"
+                onChange={formikCreate.handleChange}
+                className="form-control"
+              /> */}
+              <Upload multiple {...uploadProps} fileList={fileList}>
+                <Button
+                  icon={<UploadOutlined />}
+                  name="image"
+                  value={formikCreate.values.image}
+                  placeholder="image"
+                  onChange={formikCreate.handleChange}
+                >
+                  Upload png only
+                </Button>
+              </Upload>
+              <div>
+                {formikCreate.errors.image && formikCreate.touched.image && (
+                  <p className="erro">{formikCreate.errors.image}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold ">price</label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="price"
+                value={formikCreate.values.price}
+                placeholder="Address"
+                onChange={formikCreate.handleChange}
+                className="form-control"
+              />
+              <div>
+                {formikCreate.errors.price && formikCreate.touched.price && (
+                  <p className="erro">{formikCreate.errors.price}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold">rating</label>
+            <div className="col-sm-8">
+              <span>
+                <Rate
+                  name="rating"
+                  onChange={setValueRate}
+                  value={valueRate}
+                  allowHalf
+                />
+              </span>
+              <div>
+                {formikCreate.errors.rating && formikCreate.touched.rating && (
+                  <p className="erro">{formikCreate.errors.rating}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold">size</label>
+            <div className="col-sm-8">
+              <select
+                name="size"
+                value={formikCreate.values.size}
+                onChange={formikCreate.handleChange}
+                className="form-control"
+                id="inputPassword3"
+              >
+                <option value="">Size</option>
+                <option value="X">X</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XS">XS</option>
+              </select>
+
+              <div>
+                {formikCreate.errors.size && formikCreate.touched.size && (
+                  <p className="erro">{formikCreate.errors.size}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold">mau</label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="mau"
+                value={formikCreate.values.mau}
+                onChange={formikCreate.handleChange}
+                placeholder="mau"
+                className="form-control"
+                id="inputPassword3"
+              />
+              <div>
+                {formikCreate.errors.mau && formikCreate.touched.mau && (
+                  <p className="erro">{formikCreate.errors.mau}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold">quantity</label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="quantity"
+                value={formikCreate.values.quantity}
+                onChange={formikCreate.handleChange}
+                placeholder="quantity"
+                className="form-control"
+                id="inputPassword3"
+              />
+              <div>
+                {formikCreate.errors.quantity &&
+                  formikCreate.touched.quantity && (
+                    <p className="erro">{formikCreate.errors.quantity}</p>
+                  )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold">title</label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="title"
+                value={formikCreate.values.title}
+                onChange={formikCreate.handleChange}
+                placeholder="title"
+                className="form-control"
+                id="inputPassword3"
+              />
+              <div>
+                {formikCreate.errors.title && formikCreate.touched.title && (
+                  <p className="erro">{formikCreate.errors.title}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="btn btn-outline-dark w-25 btn-submit"
+          >
+            Create
+          </button>
+          <button type="submit" className="btn btn-outline-dark w-25 ">
+            Cancel
+          </button>
+        </form>
+      </Modal>
       <Table striped>
         <thead>
           <tr>
@@ -121,7 +459,7 @@ const Order = () => {
           </tr>
         </thead>
         <tbody>
-          {listProduct.map((product, index) => (
+          {listProduct?.map((product, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
 
@@ -133,12 +471,12 @@ const Order = () => {
               <td>{product.phone}</td>
               <td>{product.textarea}</td>
               <td>
-                {product.product.map((sp, index) => (
+                {product?.product?.map((sp, index) => (
                   <img src={sp.image} height={50} width={50} key={index}></img>
                 ))}
               </td>
               <td>
-                {product.product.map((sp, index) => (
+                {product?.product?.map((sp, index) => (
                   <div key={index}>{sp.color + "/"}</div>
                 ))}
               </td>
@@ -161,10 +499,7 @@ const Order = () => {
                       <div className="row">
                         <div className="col-md-6">
                           <div className="detail_form_img">
-                            <img
-                              src="https://vapa.vn/wp-content/uploads/2022/12/avatar-facebook-dep-003.jpg"
-                              alt=""
-                            />
+                            <img src="" alt="" />
                           </div>
                           <div className="detail_name">{information.name}</div>
                           <div className="detail_page">
@@ -278,12 +613,19 @@ const Order = () => {
                     </div>
                     <div className="form_edit"></div>
                   </div>
-                  <button
-                    className=" btn btn-outline-dark btn-danger px-4 py-2 me-2 a"
-                    onClick={() => handleDelete(product.id)}
+                  <Button type="primary" onClick={showModal}>
+                    Delete
+                  </Button>
+                  <Modal
+                    title="Alert"
+                    open={open}
+                    onOk={() => handleOk(product.id)}
+                    confirmLoading={confirmLoading}
+                    onCancel={handleCancel}
                   >
-                    DELETE
-                  </button>
+                    <p>{modalText}</p>
+                  </Modal>
+
                   <button
                     className=" btn btn-outline-dark btn-success px-4 py-2 me-2 a"
                     onClick={() => hanldeEdit(product)}
@@ -484,6 +826,13 @@ const Order = () => {
                               >
                                 Edit
                               </button>
+                              <button
+                                type="submit"
+                                className="btn btn-outline-dark btnSend ms-3"
+                                onClick={() => setOnClickEdit(!onClickEdit)}
+                              >
+                                cancel
+                              </button>
                             </div>
                           </form>
                         </div>
@@ -502,7 +851,7 @@ const Order = () => {
           dispatch(changePagination({ page: page, limit: pageSize }));
         }}
         current={Number(pagination.page)}
-        total={Number(50)}
+        total={Number(pagination.total)}
         pageSize={Number(pagination.limit)}
       />
     </>
