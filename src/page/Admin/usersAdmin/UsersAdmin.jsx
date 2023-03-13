@@ -1,4 +1,4 @@
-import { Pagination } from "antd";
+import { Button, Modal, Pagination } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +15,10 @@ const UsersAdmin = () => {
   const pagination = useSelector((state) => state.authReducer.pagination);
   const search = useSelector((state) => state.authReducer.search);
   const listUsers = useSelector((state) => state.authReducer.listUsers);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState("bạn có chắc muốn xóa sản phẩm ?");
+  const [open, setOpen] = useState(false);
+
   useEffect(() => {
     dispatch(
       getLoginAdmin({
@@ -25,6 +29,29 @@ const UsersAdmin = () => {
       })
     );
   }, [pagination, search]);
+  const showModal = () => {
+    setOpen(true);
+  };
+  const handleOk = (id) => {
+    setModalText("chời đợi trong giây lát");
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setOpen(false);
+      setConfirmLoading(false);
+      dispatch(deleteUser(id));
+      dispatch(
+        getLoginAdmin({
+          page: `${pagination.page}`,
+          limit: `${pagination.limit}`,
+          category: `${pagination.category}`,
+          textSearch: search,
+        })
+      );
+    }, 2000);
+  };
+  const handleCancel = () => {
+    setOpen(false);
+  };
 
   const handleDelete = (cart) => {
     dispatch(deleteUser(cart));
@@ -56,7 +83,7 @@ const UsersAdmin = () => {
           </tr>
         </thead>
         <tbody>
-          {listUsers.map((user, index) => (
+          {listUsers?.map((user, index) => (
             <tr key={index}>
               <td>{index + 1}</td>
               <td>{user.username}</td>
@@ -64,12 +91,18 @@ const UsersAdmin = () => {
               <td>{user.address}</td>
               <td>{user.phone}</td>
               <td>
-                <button
-                  className=" btn btn-outline-dark btn-danger px-4 py-2 me-2 a"
-                  onClick={() => handleDelete(user.id)}
+                <Button type="primary" onClick={showModal}>
+                  Delete
+                </Button>
+                <Modal
+                  title="Alert"
+                  open={open}
+                  onOk={() => handleOk(user.id)}
+                  confirmLoading={confirmLoading}
+                  onCancel={handleCancel}
                 >
-                  DELETE
-                </button>
+                  <p>{modalText}</p>
+                </Modal>
               </td>
             </tr>
           ))}
@@ -80,7 +113,7 @@ const UsersAdmin = () => {
           dispatch(changePagination({ page: page, limit: pageSize }));
         }}
         current={Number(pagination.page)}
-        total={Number(50)}
+        total={Number(pagination.total)}
         pageSize={Number(pagination.limit)}
       />
     </>

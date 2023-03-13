@@ -42,6 +42,6 @@ export const getLoginAdmin = createAsyncThunk(
       textSearch
     );
     //await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
-    return response.data;
+    return { users: response.data, total: response.headers["x-total-count"] };
   }
 );

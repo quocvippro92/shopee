@@ -65,7 +65,8 @@ const todoSliceProductAdmin = createSlice({
     //fulfilled là thành công
     builder.addCase(getProductAdmin.fulfilled, (state, action) => {
       state.loadingCreateproductAdmin = false;
-      state.listProduct = action.payload;
+      state.listProduct = action.payload.product;
+      state.pagination.total = action.payload.total;
     });
     builder.addCase(getProductAdmin.rejected, (state, action) => {
       state.loadingCreateproductAdmin = false;

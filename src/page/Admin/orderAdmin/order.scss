@@ -1,5 +1,10 @@
 .container-fuild {
   position: relative;
+
+  .btn-gold {
+    background-color: gold;
+  }
+
   .headerNavbar {
     text-align: center;
     margin-top: 30px;
@@ -22,6 +27,7 @@
     right: 0;
     background-color: rgba(204, 204, 204, 0.852);
     opacity: 1;
+    z-index: 100;
     display: none;
 
     .detail_form {
@@ -94,4 +100,7 @@
   .detail_edit.open {
     display: block;
   }
+}
+button.btn.btn-outline-dark.w-25.btn-submit {
+  margin-right: 10px;
 }

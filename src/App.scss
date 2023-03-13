@@ -96,6 +96,18 @@ button.ant-btn.css-dev-only-do-not-override-1km3mtt.ant-btn-default.ant-dropdown
 .card-header h1 {
   text-align: justify;
 }
+:where(.css-dev-only-do-not-override-1km3mtt).ant-btn-primary {
+  color: #fff;
+  background-color: #ff1655;
+  box-shadow: 0 2px 0 rgb(5 145 255 / 10%);
+  height: 44px;
+}
+:where(.css-dev-only-do-not-override-1km3mtt).ant-btn-default {
+  background-color: #ffffff;
+  border-color: #d9d9d9;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
+  height: 44px;
+}
 .numberOf {
   text-align: center !important;
   padding-right: 30px !important;

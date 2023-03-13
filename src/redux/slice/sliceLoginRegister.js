@@ -91,7 +91,8 @@ const todoSlice = createSlice({
     //fulfilled là thành công
     builder.addCase(getLoginAdmin.fulfilled, (state, action) => {
       state.loadingLoginAdmin = false;
-      state.listUsers = action.payload;
+      state.listUsers = action.payload.users;
+      state.pagination.total = action.payload.total;
     });
     //rejected là thông báo thất bại
     builder.addCase(getLoginAdmin.rejected, (state, action) => {

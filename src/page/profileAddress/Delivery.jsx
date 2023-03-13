@@ -128,7 +128,14 @@ const Delivery = () => {
       <div className="container-checkout" key={cart.id} name="cart">
         <div className="item-checkout row">
           <div className="col-md-4 col-ms-12 img-item">
-            <img src={cart.image} alt={cart.title} height={120} width={120} />
+            <img
+              className="image-item"
+              src={cart.image}
+              alt={cart.title}
+              height={120}
+              width={120}
+            />
+            ({cart.quantity})
           </div>
           <div className="col-md-4 col-ms-12 title-item">
             <p>{cart.title}</p>

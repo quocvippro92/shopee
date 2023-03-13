@@ -21,7 +21,7 @@ export const getProductAdmin = createAsyncThunk(
       textSearch
     );
     //await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
-    return response.data;
+    return { product: response.data, total: response.headers["x-total-count"] };
   }
 );
 
@@ -32,11 +32,13 @@ export const updateProductAdmin = createAsyncThunk(
       payload.id,
       payload.objValue
     );
-    notification.success({
-      message: "Edit thanh cong",
-      style: { border: "2px solid #71be34" },
-      duration: 3,
-    });
+    if (payload.id && payload.objValue !== null) {
+      notification.success({
+        message: "Edit thanh cong",
+        style: { border: "2px solid #71be34" },
+        duration: 3,
+      });
+    }
     return response.data;
   }
 );
