@@ -18,7 +18,7 @@ const UsersAdmin = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("bạn có chắc muốn xóa sản phẩm ?");
   const [open, setOpen] = useState(false);
-
+  const [id, setId] = useState(0);
   useEffect(() => {
     dispatch(
       getLoginAdmin({
@@ -29,10 +29,11 @@ const UsersAdmin = () => {
       })
     );
   }, [pagination, search]);
-  const showModal = () => {
+  const showModal = (id) => {
+    setId(id);
     setOpen(true);
   };
-  const handleOk = (id) => {
+  const handleOk = () => {
     setModalText("chời đợi trong giây lát");
     setConfirmLoading(true);
     setTimeout(() => {
@@ -49,26 +50,15 @@ const UsersAdmin = () => {
       );
     }, 2000);
   };
-  const handleCancel = () => {
+  const handleCancel = (id) => {
     setOpen(false);
   };
 
-  const handleDelete = (cart) => {
-    dispatch(deleteUser(cart));
-    dispatch(
-      getLoginAdmin({
-        page: `${pagination.page}`,
-        limit: `${pagination.limit}`,
-        category: `${pagination.category}`,
-        textSearch: search,
-      })
-    );
-  };
   return (
     <>
       <div className="container-fuild">
         <div className="headerNavbar">
-          <h1>Danh Sách Khách Hàng Đã Order</h1>
+          <h1>Danh Sách Khách Hàng</h1>
         </div>
       </div>
       <Table>
@@ -91,13 +81,13 @@ const UsersAdmin = () => {
               <td>{user.address}</td>
               <td>{user.phone}</td>
               <td>
-                <Button type="primary" onClick={showModal}>
+                <Button type="primary" onClick={() => showModal(user.id)}>
                   Delete
                 </Button>
                 <Modal
                   title="Alert"
                   open={open}
-                  onOk={() => handleOk(user.id)}
+                  onOk={handleOk}
                   confirmLoading={confirmLoading}
                   onCancel={handleCancel}
                 >
