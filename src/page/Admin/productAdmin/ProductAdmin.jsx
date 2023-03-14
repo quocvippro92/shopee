@@ -1,8 +1,11 @@
-import { Pagination } from "antd";
+import { Pagination, Rate } from "antd";
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProductAdmin } from "../../../redux/action/actionProductAdmin";
+import {
+  createProductsAdmin,
+  deleteProductAdmin,
+} from "../../../redux/action/actionProductAdmin";
 
 import * as yup from "yup";
 import { useFormik } from "formik";
@@ -15,6 +18,7 @@ const ProductAdmin = () => {
   const [onClick, setOnClick] = useState(false);
   const [onClickEdit, setOnClickEdit] = useState(false);
   const [information, setInformation] = useState([]);
+  const [valueRate, setValueRate] = useState(1);
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState("bạn có chắc muốn xóa sản phẩm ?");
@@ -23,7 +27,8 @@ const ProductAdmin = () => {
   const [modalTextEdit, setModalTextEdit] = useState(
     "bạn có chắc Edit sản phẩm?"
   );
-
+  const [openCreate, setOpenCreate] = useState(false);
+  const [confirmLoadingCreate, setConfirmLoadingCreate] = useState(false);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.authReducerProducts.products);
   const search = useSelector(
@@ -43,17 +48,6 @@ const ProductAdmin = () => {
       })
     );
   }, [pagination]);
-
-  const handleClick = (product) => {
-    setInformation(product);
-    console.log(product);
-    setOnClick(!onClick);
-  };
-
-  const hanldeEdit = (product) => {
-    setInformation(product);
-    setOnClickEdit(!onClickEdit);
-  };
 
   const showModalDelete = () => {
     setOpen(true);
@@ -83,7 +77,7 @@ const ProductAdmin = () => {
 
   // Edit
   const showModalEdit = () => {
-    setOpen(true);
+    setOpenEdit(true);
   };
 
   const handleOkEdit = () => {
@@ -137,6 +131,46 @@ const ProductAdmin = () => {
       // dispatch(updateProductAdmin({ id, objValue }));
     },
   });
+  const formikCreate = useFormik({
+    initialValues: {
+      category: "",
+      description: "",
+      image: "",
+      price: "",
+      rating: "",
+      size: "",
+      mau: "",
+      count: "",
+      title: "",
+    },
+    validationSchema: yup.object().shape({
+      category: yup.string().required("you have not entered category"),
+      description: yup.string().required("your must fill in this description!"),
+      image: yup.string().required("required!"),
+      price: yup.string().required("your must fill in this section!"),
+      rating: yup.string(),
+      size: yup.string().required("your must fill in this section!"),
+      mau: yup.string().required("your must fill in this section!"),
+      count: yup.string().required("your must fill in this section!"),
+      title: yup.string().required("your must fill in this section!"),
+    }),
+    onSubmit: (values) => {
+      const newProduct = {
+        ...values,
+        rating: { rate: valueRate, count: formikCreate.values.count },
+      };
+
+      dispatch(createProductsAdmin(newProduct));
+      dispatch(
+        fetchProducts({
+          page: `${pagination.page}`,
+          limit: `${pagination.limit}`,
+          category: `${pagination.category}`,
+          textSearch: search,
+        })
+      );
+    },
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -151,6 +185,21 @@ const ProductAdmin = () => {
     setIsModalOpen(false);
   };
 
+  const showModalCreate = () => {
+    setOpenCreate(true);
+  };
+  // const handleOkCreate = (id) => {
+  //   setModalText("chời đợi trong giây lát");
+  //   setConfirmLoadingCreate(true);
+  //   setTimeout(() => {
+  //     setOpenCreate(false);
+  //     setConfirmLoadingCreate(false);
+  //   }, 1000);
+  // };
+  const handleCancelCreate = () => {
+    console.log("Clicked cancel button");
+    setOpenCreate(false);
+  };
   return (
     <>
       <div className="container-fuild">
@@ -158,6 +207,206 @@ const ProductAdmin = () => {
           <h1>Sản Phẩm Hiện Có Của QH_SHOP</h1>
         </div>
       </div>
+      <Button type="primary" className="btn-gold" onClick={showModalCreate}>
+        CreateProduct
+      </Button>
+
+      <Modal
+        title="Title"
+        open={openCreate}
+        confirmLoading={confirmLoadingCreate}
+        onCancel={handleCancelCreate}
+        cancelButtonProps={{ style: { display: "none" } }}
+        okButtonProps={{ style: { display: "none" } }}
+      >
+        <form onSubmit={formikCreate.handleSubmit}>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold ">category</label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="category"
+                value={formikCreate.values.category}
+                onChange={formikCreate.handleChange}
+                placeholder="category"
+                className="form-control"
+              />
+              <div>
+                {formikCreate.errors.category &&
+                  formikCreate.touched.category && (
+                    <p className="erro">{formikCreate.errors.category}</p>
+                  )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold ">
+              description
+            </label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="description"
+                value={formikCreate.values.description}
+                onChange={formikCreate.handleChange}
+                className="form-control"
+                placeholder="description"
+                id="inputEmail3"
+              />
+              <div>
+                {formikCreate.errors.description &&
+                  formikCreate.touched.description && (
+                    <p className="erro">{formikCreate.errors.description}</p>
+                  )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold ">Image</label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="image"
+                value={formikCreate.values.image}
+                onChange={formikCreate.handleChange}
+                className="form-control"
+                placeholder="link image"
+                id="inputEmail3"
+              />
+              <div></div>
+
+              <div>
+                {formikCreate.errors.image && formikCreate.touched.image && (
+                  <p className="erro">{formikCreate.errors.image}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold ">price</label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="price"
+                value={formikCreate.values.price}
+                placeholder="price"
+                onChange={formikCreate.handleChange}
+                className="form-control"
+              />
+              <div>
+                {formikCreate.errors.price && formikCreate.touched.price && (
+                  <p className="erro">{formikCreate.errors.price}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold">rating</label>
+            <div className="col-sm-8">
+              <span>
+                <Rate
+                  name="rating"
+                  onChange={setValueRate}
+                  value={valueRate}
+                  allowHalf
+                />
+              </span>
+              <div>
+                {formikCreate.errors.rating && formikCreate.touched.rating && (
+                  <p className="erro">{formikCreate.errors.rating}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold">size</label>
+            <div className="col-sm-8">
+              <select
+                name="size"
+                value={formikCreate.values.size}
+                onChange={formikCreate.handleChange}
+                className="form-control"
+                id="inputPassword3"
+              >
+                <option value="">Size</option>
+                <option value="X">X</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XS">XS</option>
+              </select>
+
+              <div>
+                {formikCreate.errors.size && formikCreate.touched.size && (
+                  <p className="erro">{formikCreate.errors.size}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold">mau</label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="mau"
+                value={formikCreate.values.mau}
+                onChange={formikCreate.handleChange}
+                placeholder="mau"
+                className="form-control"
+                id="inputPassword3"
+              />
+              <div>
+                {formikCreate.errors.mau && formikCreate.touched.mau && (
+                  <p className="erro">{formikCreate.errors.mau}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold">Count</label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="count"
+                value={formikCreate.values.count}
+                onChange={formikCreate.handleChange}
+                placeholder="count"
+                className="form-control"
+                id="inputPassword3"
+              />
+              <div>
+                {formikCreate.errors.count && formikCreate.touched.count && (
+                  <p className="erro">{formikCreate.errors.count}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="row mb-3">
+            <label className="col-sm-4 col-form-label fw-bold">title</label>
+            <div className="col-sm-8">
+              <input
+                type="text"
+                name="title"
+                value={formikCreate.values.title}
+                onChange={formikCreate.handleChange}
+                placeholder="title"
+                className="form-control"
+                id="inputPassword3"
+              />
+              <div>
+                {formikCreate.errors.title && formikCreate.touched.title && (
+                  <p className="erro">{formikCreate.errors.title}</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="btn btn-outline-dark w-25 btn-submit"
+          >
+            Create
+          </button>
+        </form>
+      </Modal>
 
       <Table striped>
         <thead>

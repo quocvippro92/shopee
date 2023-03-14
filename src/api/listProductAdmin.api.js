@@ -28,4 +28,5 @@ export const adminApi = {
 
   deleteProductAdmin: (id) => API.delete(`${BASE_URL}/product`, id),
   deleteOrderAdmin: (id) => API.delete(`${BASE_URL}/listProductUser`, id),
+  createProductsAdmin: (data) => API.post(`${BASE_URL}/product`, data),
 };

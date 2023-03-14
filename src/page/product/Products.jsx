@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   changePagination,
-  changeSearch,
   filterCategory,
 } from "../../redux/slice/sliceProducts";
 import { fetchProducts } from "../../redux/action/productAction";

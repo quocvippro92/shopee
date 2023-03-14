@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { notification } from "antd";
+import { createProductsAdmin } from "../action/actionProductAdmin";
 import { fetchProducts } from "../action/productAction";
 
 const authInitalState = {
   loadingProduct: false,
   loadingProductCategory: false,
+  loadingCreateproductsAdmin: false,
   pagination: {
     page: 1,
     limit: 8,
@@ -46,6 +48,20 @@ const todoSliceProducts = createSlice({
     //rejected là thông báo thất bại
     builder.addCase(fetchProducts.rejected, (state, action) => {
       state.loadingRegister = false;
+    });
+
+    // creater products
+    builder.addCase(createProductsAdmin.pending, (state, action) => {
+      state.loadingCreateproductsAdmin = true;
+    });
+    //fulfilled là thành công
+    builder.addCase(createProductsAdmin.fulfilled, (state, action) => {
+      state.loadingCreateproductsAdmin = false;
+      state.products = action.payload.product;
+    });
+    //rejected là thông báo thất bại
+    builder.addCase(createProductsAdmin.rejected, (state, action) => {
+      state.loadingCreateproductsAdmin = false;
     });
   },
 });
