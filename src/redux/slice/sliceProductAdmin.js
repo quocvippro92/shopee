@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { notification } from "antd";
 import {
   createProductAdmin,
+  createProductsAdmin,
   getOrderAdmin,
   getProductAdmin,
 } from "../action/actionProductAdmin";

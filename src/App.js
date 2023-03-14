@@ -11,7 +11,6 @@ import Products from "./page/product/Products";
 import Product from "./page/product/Product";
 import Address from "./page/profileAddress/Address";
 import Delivery from "./page/profileAddress/Delivery";
-import Admin from "./page/Admin/Admin";
 import YourOrder from "./page/cart/YourOrder";
 import LoginAdmin from "./page/Admin/LoginAdmin";
 import PageAdmin from "./page/Admin/PageAdmin";
