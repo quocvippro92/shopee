@@ -13,6 +13,7 @@ const authInitalState = {
     total: 0,
     category: "",
   },
+  category: "",
   search: "",
   products: [],
 };
@@ -29,7 +30,6 @@ const todoSliceProducts = createSlice({
       state.pagination.limit = action.payload.limit;
     },
     changeSearch: (state, action) => {
-      console.log(action.payload);
       state.search = action.payload;
     },
   },
@@ -58,6 +58,11 @@ const todoSliceProducts = createSlice({
     builder.addCase(createProductsAdmin.fulfilled, (state, action) => {
       state.loadingCreateproductsAdmin = false;
       state.products = action.payload.product;
+      notification.success({
+        message: "Khởi tạo thành công!",
+        style: { border: "2px solid #71be34" },
+        duration: 3,
+      });
     });
     //rejected là thông báo thất bại
     builder.addCase(createProductsAdmin.rejected, (state, action) => {

@@ -31,7 +31,7 @@ const todoSliceProductAdmin = createSlice({
       state.pagination.page = action.payload.page;
       state.pagination.limit = action.payload.limit;
     },
-    changeSearch: (state, action) => {
+    changeSearchProductAdmin: (state, action) => {
       console.log(action.payload);
       state.search = action.payload;
     },
@@ -75,6 +75,6 @@ const todoSliceProductAdmin = createSlice({
     });
   },
 });
-export const { filterCategory, changePagination, changeSearch } =
+export const { filterCategory, changePagination, changeSearchProductAdmin } =
   todoSliceProductAdmin.actions;
 export const authReducerListProductAdmin = todoSliceProductAdmin.reducer;

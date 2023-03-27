@@ -17,7 +17,6 @@ const Products = () => {
   const pagination = useSelector(
     (state) => state.authReducerProducts.pagination
   );
-  console.log(pagination.total);
   const productPagination = useSelector(
     (state) => state.authReducerProducts.pagination
   );

@@ -15,7 +15,7 @@ export const createProductsAdmin = createAsyncThunk(
   async (payload, thunkAPI) => {
     const data = payload;
     const response = await adminApi.createProductsAdmin(data); //await là bất đồng bộ nếu có thèn await thì đợi cho axios chạy xong rồi ms log nó ra
-    console.log(response.data);
+    
     return response.data;
   }
 );

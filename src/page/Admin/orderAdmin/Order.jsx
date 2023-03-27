@@ -230,7 +230,10 @@ const Order = () => {
                       <div className="row">
                         <div className="col-md-6">
                           <div className="detail_form_img">
-                            <img src="" alt="" />
+                            <img
+                              src="https://i.9mobi.vn/cf/Images/tt/2021/8/20/anh-avatar-dep-39.jpg"
+                              alt=""
+                            />
                           </div>
                           <div className="detail_name">{information.name}</div>
                           <div className="detail_page">

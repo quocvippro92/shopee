@@ -13,6 +13,8 @@ import { fetchProducts } from "../../../redux/action/productAction";
 import { Button, Modal } from "antd";
 import "./productAdmin.scss";
 import { changePagination } from "../../../redux/slice/sliceProducts";
+import { changeSearch } from "../../../redux/slice/sliceLoginRegister";
+import { changeSearchProductAdmin } from "../../../redux/slice/sliceProductAdmin";
 
 const ProductAdmin = () => {
   const [onClick, setOnClick] = useState(false);
@@ -39,6 +41,7 @@ const ProductAdmin = () => {
     (state) => state.authReducerProducts.pagination
   );
   useEffect(() => {
+    console.log("áds");
     dispatch(
       fetchProducts({
         page: `${pagination.page}`,
@@ -47,7 +50,7 @@ const ProductAdmin = () => {
         textSearch: search,
       })
     );
-  }, [pagination]);
+  }, [pagination, search]);
 
   const showModalDelete = () => {
     setOpen(true);
@@ -96,41 +99,41 @@ const ProductAdmin = () => {
 
   const phoneRegExp = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
 
-  const formik = useFormik({
-    initialValues: {
-      firstname: "",
-      address: "",
-      city: "",
-      phone: "",
-      ward: "",
-      district: "",
-    },
-    validationSchema: yup.object().shape({
-      firstname: yup
-        .string()
-        .min(5, "your name must be at least 5 characters!")
-        .max(30, "your name must be under 30 characters"),
+  // const formik = useFormik({
+  //   initialValues: {
+  //     firstname: "",
+  //     address: "",
+  //     city: "",
+  //     phone: "",
+  //     ward: "",
+  //     district: "",
+  //   },
+  //   validationSchema: yup.object().shape({
+  //     firstname: yup
+  //       .string()
+  //       .min(5, "your name must be at least 5 characters!")
+  //       .max(30, "your name must be under 30 characters"),
 
-      address: yup.string(),
-      city: yup.string(),
-      ward: yup.string(),
-      district: yup.string(),
-      phone: yup.string().matches(phoneRegExp, "Phone number is not valid"),
-      textarea: yup.string(),
-    }),
-    onSubmit: (values) => {
-      const id = information.id;
-      const objValue = { ...values };
-      console.log(objValue);
-      objValue.name = values.firstname;
-      objValue.phone = values.phone;
-      objValue.address = values.address;
-      objValue.district = values.district;
-      objValue.city = values.city;
-      objValue.ward = values.ward;
-      // dispatch(updateProductAdmin({ id, objValue }));
-    },
-  });
+  //     address: yup.string(),
+  //     city: yup.string(),
+  //     ward: yup.string(),
+  //     district: yup.string(),
+  //     phone: yup.string().matches(phoneRegExp, "Phone number is not valid"),
+  //     textarea: yup.string(),
+  //   }),
+  //   onSubmit: (values) => {
+  //     const id = information.id;
+  //     const objValue = { ...values };
+  //     console.log(objValue);
+  //     objValue.name = values.firstname;
+  //     objValue.phone = values.phone;
+  //     objValue.address = values.address;
+  //     objValue.district = values.district;
+  //     objValue.city = values.city;
+  //     objValue.ward = values.ward;
+  //     // dispatch(updateProductAdmin({ id, objValue }));
+  //   },
+  // });
   const formikCreate = useFormik({
     initialValues: {
       category: "",
@@ -159,7 +162,6 @@ const ProductAdmin = () => {
         ...values,
         rating: { rate: valueRate, count: formikCreate.values.count },
       };
-
       dispatch(createProductsAdmin(newProduct));
       dispatch(
         fetchProducts({
@@ -169,6 +171,7 @@ const ProductAdmin = () => {
           textSearch: search,
         })
       );
+      setOpenCreate(false);
     },
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -200,6 +203,10 @@ const ProductAdmin = () => {
     console.log("Clicked cancel button");
     setOpenCreate(false);
   };
+  const handleSearchProduct = (e) => {
+    const value = e.target.value;
+    dispatch(changeSearchProductAdmin(value));
+  };
   return (
     <>
       <div className="container-fuild">
@@ -210,7 +217,14 @@ const ProductAdmin = () => {
       <Button type="primary" className="btn-gold" onClick={showModalCreate}>
         CreateProduct
       </Button>
-
+      <div className="navSearch">
+        <i className="fa fa-search iconSearch" aria-hidden="true"></i>
+        <input
+          type="text"
+          placeholder="Search..."
+          onChange={handleSearchProduct}
+        />
+      </div>
       <Modal
         title="Title"
         open={openCreate}
